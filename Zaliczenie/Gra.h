@@ -13,6 +13,8 @@ private:
 	sf::VideoMode videoMode;
 	sf::RenderWindow* window;
 	bool endGame;
+	sf::Event event;
+	
 
 	void initVariables();
 	void initWindow();
@@ -21,7 +23,10 @@ public:
 	Gra();
 	~Gra();
 
-	void renderWindow();
-	void updateWindow();
+	const bool running() const;
+	void pollEvents();
+
+	void render();
+	void update();
 };
 
