@@ -19,6 +19,7 @@ private:
 	int timer_max = 5;
 	std::vector<sf::ConvexShape> enemies;
 	sf::ConvexShape enemy;
+	bool direction = false;
 
 public:
 	Enemies();
@@ -43,7 +44,7 @@ void Enemies::initEnemies()
 	enemy.setPoint(3, Vector2f(10.f, 20.f));
 	enemy.setPoint(4, Vector2f(5.f, 40.f));
 	enemy.setPoint(5, Vector2f(0.f, 15.f));
-	enemy.setFillColor(Color::Yellow);
+
 	enemy.setOrigin(15.f, 20.f);
 	enemy.rotate(180);
 	enemy.setPosition(50.f, 50.f);
@@ -58,7 +59,7 @@ void Enemies::renderEnemies(RenderTarget &target)
 }
 void Enemies::spawnEnemies(RenderTarget &target)
 {
-	enemy.setPosition(static_cast<float>(rand() % static_cast<int>(target.getSize().x) - 30.f), 0.f);
+	enemy.setPosition(static_cast<float>(rand() % static_cast<int>(target.getSize().x) - 15.f), static_cast<float>(rand() % static_cast<int>(100)));
 
 	//Randomize enemy type
 
@@ -115,7 +116,31 @@ void Enemies::updateEnemies(RenderTarget& target)
 			timer++;
 		}
 	};
-	
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (direction == false)
+		{
+			enemies[i].move(0.f, 2.f);
+
+			if (enemies[i].getPosition().y >= target.getSize().y)
+			{
+				direction = true;
+
+			};
+
+		}
+		if (direction == true)
+		{
+			enemies[i].move(0.f, -5.f);
+
+			if (enemies[i].getPosition().y <= 0)
+			{
+				direction = false;
+
+			}
+		}
+	}
 };
 
 class Player
