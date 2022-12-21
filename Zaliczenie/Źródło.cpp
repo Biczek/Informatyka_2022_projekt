@@ -7,17 +7,183 @@
 
 using namespace sf;
 
-void Update( RectangleShape &square, RenderWindow &window, CircleShape& bullet);
-void Draw(RenderWindow &window, RectangleShape &square, CircleShape &bullet, ConvexShape &convex);
-void Draw_bullet(RectangleShape& square, CircleShape& bullet, RenderWindow &window);
-void Draw_enemies(ConvexShape &convex, RenderWindow &window);
 
 float velocity = 5.f;
-bool is_shot = false;
-int max_enemies = 10;
-int enemies = 0;
 
 
+class Enemies
+{
+private:
+	int max_enemies = 10;
+	int timer = 0;
+	int timer_max = 5;
+	std::vector<sf::ConvexShape> enemies;
+	sf::ConvexShape enemy;
+
+public:
+	Enemies();
+	void renderEnemies(RenderTarget &target);
+	void initEnemies();
+	void updateEnemies(RenderTarget &target);
+	void spawnEnemies(RenderTarget &target);
+};
+
+Enemies::Enemies()
+{
+	initEnemies();
+};
+void Enemies::initEnemies()
+{
+	
+	enemy.setPointCount(6);
+
+	enemy.setPoint(0, Vector2f(10.f, 0.f));
+	enemy.setPoint(1, Vector2f(20.f, 15.f));
+	enemy.setPoint(2, Vector2f(15.f, 40.f));
+	enemy.setPoint(3, Vector2f(10.f, 20.f));
+	enemy.setPoint(4, Vector2f(5.f, 40.f));
+	enemy.setPoint(5, Vector2f(0.f, 15.f));
+	enemy.setFillColor(Color::Yellow);
+	enemy.setOrigin(15.f, 20.f);
+	enemy.rotate(180);
+	enemy.setPosition(50.f, 50.f);
+	enemy.setScale(Vector2f(2.f, 2.f));
+}
+void Enemies::renderEnemies(RenderTarget &target)
+{
+	for (auto& e : this->enemies)
+	{
+		target.draw(e);
+	}
+}
+void Enemies::spawnEnemies(RenderTarget &target)
+{
+	enemy.setPosition(static_cast<float>(rand() % static_cast<int>(target.getSize().x) - 30.f), 0.f);
+
+	//Randomize enemy type
+
+	int type = rand() % 5;
+
+	switch (type)
+	{
+	case 0:
+		this->enemy.setScale(2.f,2.f);
+		this->enemy.setFillColor(sf::Color::Magenta);
+
+		break;
+	case 1:
+		this->enemy.setScale(2.f, 2.f);
+		this->enemy.setFillColor(sf::Color::Blue);
+
+		break;
+	case 2:
+		this->enemy.setScale(2.f, 2.f);
+		this->enemy.setFillColor(sf::Color::Cyan);
+
+		break;
+	case 3:
+		this->enemy.setScale(2.f, 2.f);
+		this->enemy.setFillColor(sf::Color::Red);
+
+		break;
+	case 4:
+		this->enemy.setScale(2.f, 2.f);
+		this->enemy.setFillColor(sf::Color::Green);
+
+		break;
+
+	default:
+		this->enemy.setScale(2.f, 2.f);
+		this->enemy.setFillColor(sf::Color::Yellow);
+		break;
+	}
+
+	//Spawn the enemy
+	this->enemies.push_back(this->enemy);
+}
+void Enemies::updateEnemies(RenderTarget& target)
+{
+	if (enemies.size() <= max_enemies)
+	{
+		if (timer < timer_max)
+		{
+			spawnEnemies(target);
+			timer = 0;
+		}
+		else
+		{
+			timer++;
+		}
+	};
+	
+};
+
+class Player
+{
+private:
+	
+	sf::RectangleShape Gracz;
+
+public:
+	Player();
+
+	void initPlayer();
+	void updatePlayer(RenderTarget &target);
+	void renderPlayer(RenderTarget &target);
+};
+
+Player::Player()
+{
+	initPlayer();
+};
+
+void Player::initPlayer()
+{
+	Gracz.setSize(Vector2f(100.f, 100.f));
+	Gracz.setFillColor(Color::Red);
+	Gracz.setOrigin(50.f, 50.f);
+	Gracz.setPosition(500.f, 600.f);
+	
+
+};
+
+void Player::updatePlayer(RenderTarget &target)
+{
+	if (Keyboard::isKeyPressed(Keyboard::A) && Gracz.getPosition().x > 0 + Gracz.getSize().x / 2)
+	{
+		Gracz.move(-velocity, 0.f);
+
+	}
+	else if (Keyboard::isKeyPressed(Keyboard::D) && Gracz.getPosition().x + Gracz.getSize().x / 2 < target.getSize().x)
+	{
+		Gracz.move(velocity, 0.f);
+
+	}
+	if (Keyboard::isKeyPressed(Keyboard::W) && Gracz.getPosition().y > 0 + Gracz.getSize().y / 2)
+	{
+		Gracz.move(0.f, -velocity);
+
+	}
+	else if (Keyboard::isKeyPressed(Keyboard::S) && Gracz.getPosition().y + Gracz.getSize().y / 2 < target.getSize().y)
+	{
+		Gracz.move(0.f, velocity);
+	}
+
+	if (Mouse::isButtonPressed(Mouse::Left))
+	{
+		Gracz.setFillColor(Color::Blue);
+
+	}
+	else
+	{
+		Gracz.setFillColor(Color::Red);
+	}
+};
+
+void Player::renderPlayer(RenderTarget &target)
+{
+	target.draw(Gracz);
+};
 
 
 int main()
@@ -25,46 +191,29 @@ int main()
 	srand(static_cast<unsigned>(time(0)));
 	
 
-	//Okno
+	
 	RenderWindow window(VideoMode(1000, 800), "Game");
 	window.setFramerateLimit(60);
 
-	//Postaæ tymczasowa
-	RectangleShape square(Vector2f(100.f, 100.f));
-	square.setFillColor(Color::Red);
-	square.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-	square.setOrigin(50.f, 50.f);
 
-	//Pocisk
+	/*
 	CircleShape bullet;
 	bullet.setRadius(10.f);
 	bullet.setFillColor(Color::Blue);
 	bullet.setOutlineThickness(5.f);
 	bullet.setOutlineColor(Color::Cyan);
 	bullet.setOrigin(bullet.getRadius(), bullet.getRadius());
-	bullet.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-
-	//Wróg
-	ConvexShape convex;
-	convex.setPointCount(6);
-
-	convex.setPoint(0, Vector2f(10.f,0.f));
-	convex.setPoint(1, Vector2f(20.f, 15.f));
-	convex.setPoint(2, Vector2f(15.f, 40.f));
-	convex.setPoint(3, Vector2f(10.f, 20.f));
-	convex.setPoint(4, Vector2f(5.f, 40.f));
-	convex.setPoint(5, Vector2f(0.f, 15.f));
-	convex.setFillColor(Color::Yellow);
-	convex.setOrigin(15.f,20.f);
-	convex.rotate(180);
-	convex.setPosition(50.f, 50.f);
-	convex.setScale(Vector2f(2.f, 2.f));
+	bullet.setPosition(window.getSize().x / 2, window.getSize().y / 2);*/
 
 
+	Enemies Enemies;
+	Event event;
+	Player player;
 
 	while (window.isOpen())
 	{
-		Event event;
+		
+
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
@@ -76,96 +225,24 @@ int main()
 
 
 		//Update
+		window.clear();
 
-		Update( square, window, bullet);
+		player.updatePlayer(window);
+		Enemies.updateEnemies(window);
 
 		//Draw
-		Draw(window, square, bullet, convex);
-		Draw_enemies(convex, window);
-		if (Mouse::isButtonPressed(Mouse::Left))
-		{
-			Draw_bullet(square, bullet, window);
-			is_shot = true;
-		}
+		player.renderPlayer(window);
+		Enemies.renderEnemies(window);
+		window.display();
+		
 	}
 
 	return 0;
 }
 
-void Update( RectangleShape &square, RenderWindow &window, CircleShape& bullet)
-{
-	
 
-	if (Keyboard::isKeyPressed(Keyboard::A) && square.getPosition().x > 0 + square.getSize().x / 2)
-	{
-		square.move(Vector2f(-velocity,0.f));
-		
-	}
-	if (Keyboard::isKeyPressed(Keyboard::D) && square.getPosition().x + square.getSize().x / 2 < window.getSize().x)
-	{
-		square.move(Vector2f(velocity, 0.f));
-		
-	}
-	if (Keyboard::isKeyPressed(Keyboard::W) && square.getPosition().y > 0 + square.getSize().y / 2)
-	{
-		square.move(Vector2f(0.f, -velocity));
 
-	}
-	if (Keyboard::isKeyPressed(Keyboard::S) && square.getPosition().y + square.getSize().y / 2 < window.getSize().y)
-	{
-		square.move(Vector2f(0.f, velocity));
-		
-	}
 
-	if (Mouse::isButtonPressed(Mouse::Left))
-	{
-		square.setFillColor(Color::Blue);
 
-	}
-	else
-	{
-		square.setFillColor(Color::Red);
-	}
 
-	if (is_shot == true)
-	{
-		bullet.move(0.f, -5.f);
-		if (bullet.getPosition().y == 0)
-		{
-			is_shot = false;
-		}
-	}
-	
-}
-void Draw(RenderWindow &window, RectangleShape &square, CircleShape &bullet, ConvexShape &convex)
-{
-	window.clear(Color::Black);
 
-	//Draw stuff
-
-	window.draw(square);
-	window.draw(convex);
-
-	if (is_shot == true)
-	{
-		window.draw(bullet);
-	}
-	if(enemies < max_enemies)
-	{
-		Draw_enemies(convex, window);
-	}
-	window.display();
-}
-
-void Draw_bullet(RectangleShape& square, CircleShape& bullet, RenderWindow &window)
-{
-	window.draw(bullet);
-	bullet.setPosition(square.getPosition().x, square.getPosition().y);
-	window.display();
-}
-void Draw_enemies(ConvexShape& convex, RenderWindow& window)
-{
-	window.draw(convex);
-	convex.setPosition(Vector2f(rand() % 1000, rand() % 200));
-
-}
