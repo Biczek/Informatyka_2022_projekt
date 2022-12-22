@@ -4,6 +4,7 @@
 #include"SFML\Window.hpp"
 #include"SFML\System.hpp"
 #include<ctime>
+#include<sstream>
 
 using namespace sf;
 
@@ -210,11 +211,79 @@ void Player::renderPlayer(RenderTarget &target)
 	target.draw(Gracz);
 };
 
+class helpWindow
+{
+private:
+
+	Text text;
+	Font font;
+	
+public:
+
+	helpWindow();
+
+	void initText();
+	void initFont();
+
+	void renderWindow(RenderTarget& target);
+	void renderText(RenderTarget& target);
+
+	void updateWindow(RenderTarget& target);
+	void updateText(RenderTarget& target);
+
+	
+
+};
+helpWindow::helpWindow()
+{
+	initText();
+};
+
+void helpWindow::initFont()
+{
+	font.loadFromFile("Fonts/Dosis-Light.ttf");
+}
+void helpWindow::initText()
+{
+	
+	text.setFont(font);
+	text.setCharacterSize(24);
+	
+	text.setString("NONE");
+
+}
+
+
+void helpWindow::renderWindow(RenderTarget& target)
+{
+	renderText(target);
+
+}
+void helpWindow::updateWindow(RenderTarget& target)
+{
+	updateText(target);
+}
+
+//------------------------------------
+
+void helpWindow::renderText(RenderTarget &target)
+{
+	target.draw(text);
+}
+void helpWindow::updateText(RenderTarget& target)
+{
+	std::stringstream ss;
+
+	ss << "Points: " << "\n"
+		<< "Health: " << "\n";
+
+		text.setString(ss.str());
+}
 
 int main()
 {
 	srand(static_cast<unsigned>(time(0)));
-	
+	bool help_variable = false;
 
 	
 	RenderWindow window(VideoMode(1000, 800), "Game");
@@ -234,6 +303,7 @@ int main()
 	Enemies Enemies;
 	Event event;
 	Player player;
+	helpWindow help;
 
 	while (window.isOpen())
 	{
@@ -243,23 +313,41 @@ int main()
 		{
 			if (event.type == Event::Closed)
 				window.close();
+			if (event.KeyPressed && event.key.code == Keyboard::F1)
+			{
+				help_variable = true;
+			}
 			if (event.KeyPressed && event.key.code == Keyboard::Escape)
-				window.close();
-
+			{
+				help_variable = false;
+			}
+			
 		}
 
+		if (help_variable == false)
+		{//Update
+			window.clear();
 
-		//Update
-		window.clear();
+			player.updatePlayer(window);
+			Enemies.updateEnemies(window);
 
-		player.updatePlayer(window);
-		Enemies.updateEnemies(window);
+			//Draw
+			player.renderPlayer(window);
+			Enemies.renderEnemies(window);
+			window.display();
+		}
+		if (help_variable == true)
+		{
+			window.clear();
 
-		//Draw
-		player.renderPlayer(window);
-		Enemies.renderEnemies(window);
-		window.display();
-		
+			//Update
+			help.updateWindow(window);
+
+			//Draw
+			help.renderWindow(window);
+
+			window.display();
+		}
 	}
 
 	return 0;
