@@ -9,6 +9,7 @@
 #include "Enemies.h"
 #include "Player.h"
 #include "mainMenu.h"
+#include "Confirm.h"
 
 using namespace sf;
 
@@ -113,7 +114,7 @@ int main()
 
 	RenderWindow MENU(VideoMode(1000.f, 800.f), "Main Menu", Style::Close || Style::Titlebar);
 	mainMenu mainMenu(MENU.getSize().x, MENU.getSize().y);
-
+	
 	//setBackground
 	RectangleShape background;
 	background.setSize(Vector2f(1000.f, 800.f));
@@ -168,41 +169,113 @@ int main()
 					RenderWindow Play(VideoMode(1000, 800), "game_name");
 					RenderWindow OPTIONS(VideoMode(400, 800), "OPTIONS");
 					RenderWindow ABOUT(VideoMode(800, 800), "ABOUT");
-
+					
 					int x = mainMenu.MainMenuPressed();
+
 					if (x == 0)
 					{
-						while (Play.isOpen())
-						{
-							Event aevent;
-							while (Play.pollEvent(aevent))
+						bool close = false;
+
+							while (Play.isOpen())
 							{
-								if (aevent.type == Event::Closed)
+								Event aevent;
+								
+
+								while (Play.pollEvent(aevent))
 								{
-									Play.close();
-								}
-								if (aevent.type == Event::KeyPressed)
-								{
-									if (aevent.key.code == Keyboard::Escape)
+								
+
+									if (aevent.type == Event::Closed)
 									{
 										Play.close();
 									}
+									if (aevent.type == Event::KeyPressed)
+									{
+										
+
+										if (aevent.key.code == Keyboard::Escape)
+										{
+											RenderWindow CONFIRM(VideoMode(600, 200), "CONFIRM", Style::Close || Style::Titlebar);
+											Confirm confirmMenu(CONFIRM.getSize().x, CONFIRM.getSize().y);
+
+										
+
+											while (CONFIRM.isOpen())
+											{
+
+												Event bevent;
+
+												while (CONFIRM.pollEvent(bevent))
+												{
+													if (bevent.type == Event::Closed)
+													{
+														CONFIRM.close();
+													}
+													if (bevent.type == Event::KeyPressed)
+													{
+
+														if (bevent.key.code == Keyboard::Up)
+														{
+															confirmMenu.MoveUp();
+														}
+
+														if (bevent.key.code == Keyboard::Down)
+														{
+															confirmMenu.MoveDown();
+														}
+													
+														if (bevent.key.code == Keyboard::Return)
+														{
+															if (confirmMenu.ReturnMenuSelected() == true)
+															{
+																CONFIRM.close();
+																close = true;
+															}
+															else
+															{
+																CONFIRM.close();
+															}
+															
+														}
+													
+													
+
+													}
+												}
+												CONFIRM.clear();
+												confirmMenu.draw(CONFIRM);
+												CONFIRM.display();
+												
+
+											}
+											if (close == true)
+											{
+												Play.close();
+											}
+											
+										}
+
+									}
+
 								}
+								
+								OPTIONS.close();
+								ABOUT.close();
+								Play.clear();
+								//Play.draw(Pbackground);
+								//Update
+								Enemies.updateEnemies(Play);
+								player.updatePlayer(Play, velocity);
+								//Draw
+								Enemies.renderEnemies(Play);
+								player.renderPlayer(Play);
+
+								Play.display();
+							
+
 							}
-							OPTIONS.close();
-							ABOUT.close();
-							Play.clear();
-							Play.draw(Pbackground);
-							Enemies.updateEnemies(Play);
-							player.updatePlayer(Play, velocity);
-
-							Enemies.renderEnemies(Play);
-							player.renderPlayer(Play);
-
-							Play.display();
-
-						}
 					}
+
 					if (x == 1)
 					{
 						while (OPTIONS.isOpen())
@@ -222,10 +295,11 @@ int main()
 									}
 								}
 							}
+							
 							Play.close();
 							OPTIONS.clear();
 							ABOUT.close();
-							OPTIONS.draw(Obackground);
+							//OPTIONS.draw(Obackground);
 
 							OPTIONS.display();
 
@@ -250,10 +324,11 @@ int main()
 									}
 								}
 							}
+							
 							Play.close();
 							OPTIONS.close();
 							ABOUT.clear();
-							ABOUT.draw(ABbackground);
+							//ABOUT.draw(ABbackground);
 
 							ABOUT.display();
 
@@ -267,7 +342,7 @@ int main()
 				}
 		}
 		MENU.clear();
-		MENU.draw(background);
+		//MENU.draw(background);
 		mainMenu.draw(MENU);
 		MENU.display();
 	}
