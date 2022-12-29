@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "mainMenu.h"
 #include "Confirm.h"
+#include "Help.h"
 
 using namespace sf;
 
@@ -17,98 +18,15 @@ using namespace sf;
 float velocity = 2.f;
 
 
-class helpWindow
-{
-private:
-
-	Text text;
-	Font font;
-	
-public:
-
-	helpWindow();
-
-	void initText();
-	void initFont();
-
-	void renderWindow(RenderTarget& target);
-	void renderText(RenderTarget& target);
-
-	void updateWindow(RenderTarget& target);
-	void updateText(RenderTarget& target);
-
-	
-
-};
-helpWindow::helpWindow()
-{
-	initFont();
-	initText();
-	
-};
-
-void helpWindow::initFont()
-{
-	font.loadFromFile("Fonts/Dosis-Light.ttf");
-}
-void helpWindow::initText()
-{
-	
-	
-
-	text.setFont(font);
-	text.setCharacterSize(24);
-	text.setOrigin(150,200);
-	text.setPosition(500.f, 400.f);
-	text.setString("NONE");
-
-}
-
-
-void helpWindow::renderWindow(RenderTarget& target)
-{
-	renderText(target);
-
-}
-void helpWindow::updateWindow(RenderTarget& target)
-{
-	updateText(target);
-}
-
-
-void helpWindow::renderText(RenderTarget &target)
-{
-	target.draw(text);
-}
-void helpWindow::updateText(RenderTarget& target)
-{
-	std::stringstream ss;
-
-	ss << "\t ---- Jak Grac: ----" << "\n"
-		<< "\tA - ruch w lewo " << "\n"
-		<< "\tD - ruch w prawo" << "\n"
-		<< "\tW - ruch w gore" << "\n"
-		<< "\tS - ruch w dol" << "\n"
-		<< "\tlewy przycisk myszy - strzal" << "\n"
-		<< "\n"
-		<< "Jesli chcesz opuscic okno POMOC - kliknij 1" << "\n";
-
-
-		text.setString(ss.str());
-}
-
-
-
-
-
 int main()
 {
 	srand(static_cast<unsigned>(time(0)));
 
+	bool GamePlay = false;
 
 	Enemies Enemies;
 	Player player;
-	helpWindow help;
+	
 	
 	//Make a Mainwindow
 
@@ -172,9 +90,10 @@ int main()
 					
 					int x = mainMenu.MainMenuPressed();
 
+					
 					if (x == 0)
 					{
-						bool close = false;
+						
 
 							while (Play.isOpen())
 							{
@@ -191,50 +110,60 @@ int main()
 									}
 									if (aevent.type == Event::KeyPressed)
 									{
-										
 
+										if (aevent.key.code == Keyboard::F1)
+										{
+											RenderWindow HELP(VideoMode(600, 600), "Help", Style::Titlebar);
+											Help help(HELP.getSize().x, HELP.getSize().y);
+
+											while (HELP.isOpen())
+											{
+												while (HELP.pollEvent(aevent))
+												{
+													if (aevent.type == Event::KeyPressed)
+													{
+														if (aevent.key.code == Keyboard::Escape)
+														{
+															HELP.close();
+														}
+													}
+												}
+												HELP.clear();
+												help.draw(HELP);
+												HELP.display();
+											}
+										}
+										
 										if (aevent.key.code == Keyboard::Escape)
 										{
-											RenderWindow CONFIRM(VideoMode(600, 200), "CONFIRM", Style::Close || Style::Titlebar);
+											RenderWindow CONFIRM(VideoMode(600, 200), "CONFIRM");
 											Confirm confirmMenu(CONFIRM.getSize().x, CONFIRM.getSize().y);
 
-										
 
 											while (CONFIRM.isOpen())
 											{
 
-												Event bevent;
+												
 
-												while (CONFIRM.pollEvent(bevent))
+												while (CONFIRM.pollEvent(aevent))
 												{
-													if (bevent.type == Event::Closed)
-													{
-														CONFIRM.close();
-													}
-													if (bevent.type == Event::KeyPressed)
+													if (aevent.type == Event::KeyPressed)
 													{
 
-														if (bevent.key.code == Keyboard::Up)
+														if (aevent.key.code == Keyboard::Up)
 														{
 															confirmMenu.MoveUp();
 														}
 
-														if (bevent.key.code == Keyboard::Down)
+														if (aevent.key.code == Keyboard::Down)
 														{
 															confirmMenu.MoveDown();
 														}
 													
-														if (bevent.key.code == Keyboard::Return)
+														if (aevent.key.code == Keyboard::Return)
 														{
-															if (confirmMenu.ReturnMenuSelected() == true)
-															{
-																CONFIRM.close();
-																close = true;
-															}
-															else
-															{
-																CONFIRM.close();
-															}
+															
+															CONFIRM.close();
 															
 														}
 													
@@ -248,12 +177,16 @@ int main()
 												
 
 											}
-											if (close == true)
+
+											if (confirmMenu.ReturnMenuSelected() == true)
 											{
 												Play.close();
 											}
 											
+										
 										}
+										
+
 
 									}
 
