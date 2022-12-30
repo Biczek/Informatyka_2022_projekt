@@ -73,6 +73,14 @@ void Enemies::spawnEnemies(RenderTarget& target)
 	//Spawn the enemy
 	this->enemies.push_back(this->enemy);
 }
+
+
+const sf::ConvexShape& Enemies::getShape() const
+{
+	return enemy;
+}
+
+
 void Enemies::updateEnemies(RenderTarget& target)
 {
 	if (enemies.size() <= max_enemies)

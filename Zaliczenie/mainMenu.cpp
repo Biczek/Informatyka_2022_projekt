@@ -59,3 +59,5 @@ void mainMenu::MoveDown()
 		MainMenu[MainMenuSelected].setFillColor(Color::Blue);
 	}
 }
+
+

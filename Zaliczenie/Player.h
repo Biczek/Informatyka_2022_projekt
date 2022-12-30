@@ -4,22 +4,26 @@
 #include"SFML\System.hpp"
 #include<ctime>
 #include<sstream>
+#include<iostream>
+#include<vector>
+
 
 using namespace sf;
+using namespace std;
 
 
 class Player
 {
 private:
 
-
-	int health;
 	bool shot;
-
-	RectangleShape Gracz;
-	CircleShape Bullet;
+	Text text;
+	Font font;
 
 public:
+
+	RectangleShape Gracz;
+
 	Player();
 
 	void initVariables();
@@ -28,9 +32,9 @@ public:
 	void updatePlayer(RenderTarget& target, float velocity);
 	void renderPlayer(RenderTarget& target);
 
-	void initBullet();
-	void updateBullet(RenderTarget& target);
-	void renderBullet(RenderTarget& target);
+
+	const sf::RectangleShape& getShape() const;
+
 };
 
 

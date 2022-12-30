@@ -6,8 +6,7 @@
 #include<ctime>
 #include<sstream>
 
-#include "Enemies.h"
-#include "Player.h"
+#include "Game.h"
 #include "mainMenu.h"
 #include "Confirm.h"
 #include "Help.h"
@@ -24,8 +23,7 @@ int main()
 
 	bool GamePlay = false;
 
-	Enemies Enemies;
-	Player player;
+	Game game;
 	
 	
 	//Make a Mainwindow
@@ -61,7 +59,7 @@ int main()
 	Abouttexture.loadFromFile("Images/Konstelacja.jpg");
 	ABbackground.setTexture(&Abouttexture);
 
-	bool dziala = false;
+	
 
 	while (MENU.isOpen())
 	{
@@ -180,11 +178,11 @@ int main()
 
 											if (confirmMenu.ReturnMenuSelected() == true)
 											{
-												dziala = true;
+												GamePlay = true;
 											}
 											else
 											{
-												dziala = false;
+												GamePlay = false;
 											}
 											
 										
@@ -195,20 +193,17 @@ int main()
 									}
 
 								}
-								if (dziala == false)
+								if (GamePlay == false)
 								{
 									OPTIONS.close();
 									ABOUT.close();
 									Play.clear();
 									//Update
-									Enemies.updateEnemies(Play);
-									player.updatePlayer(Play, velocity);
-									player.updateBullet(Play);
+									game.update(Play,velocity);
+
 									//Draw
 									//Play.draw(Pbackground);
-									Enemies.renderEnemies(Play);
-									player.renderPlayer(Play);
-									player.renderBullet(Play);
+									game.render(Play);
 									
 
 									Play.display();
@@ -216,6 +211,7 @@ int main()
 								else
 								{
 									Play.close();
+									
 								}
 							
 
@@ -286,6 +282,7 @@ int main()
 						MENU.close();
 						break;
 					}
+					
 				}
 		}
 		MENU.clear();
