@@ -34,6 +34,7 @@ void Player::updatePlayer(RenderTarget& target, float velocity)
 		Gracz.move(velocity, 0.f);
 
 	}
+
 	if (Keyboard::isKeyPressed(Keyboard::W) && Gracz.getPosition().y > 0 + Gracz.getSize().y / 2)
 	{
 		Gracz.move(0.f, -velocity);
@@ -65,7 +66,7 @@ void Player::initBullet()
 {
 	Bullet.setFillColor(Color::Red);
 	Bullet.setRadius(20.f);
-	Bullet.setOrigin(Bullet.getRadius() / 2, Bullet.getRadius()/2);
+	Bullet.setOrigin(Bullet.getRadius()/2, Bullet.getRadius()/2);
 	
 }
 void Player::updateBullet(RenderTarget& target)
@@ -74,7 +75,7 @@ void Player::updateBullet(RenderTarget& target)
 
 	if (Bullet.getPosition().y > 0 || shot == true)
 	{
-		Bullet.move(0.f, -5.f);
+		Bullet.move(0.f, -5.f); //velocity
 
 		if (Bullet.getPosition().y == 0)
 		{

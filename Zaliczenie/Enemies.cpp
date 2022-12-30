@@ -92,7 +92,7 @@ void Enemies::updateEnemies(RenderTarget& target)
 	{
 		if (direction == false)
 		{
-			enemies[i].move(0.f, 1.f);
+			enemies[i].move(0.f, 1.f); //velocity down
 
 			if (enemies[i].getPosition().y >= target.getSize().y)
 			{
@@ -103,7 +103,7 @@ void Enemies::updateEnemies(RenderTarget& target)
 		}
 		if (direction == true)
 		{
-			enemies[i].move(0.f, -5.f);
+			enemies[i].move(0.f, -5.f); //velocity up
 
 			if (enemies[i].getPosition().y <= 0)
 			{

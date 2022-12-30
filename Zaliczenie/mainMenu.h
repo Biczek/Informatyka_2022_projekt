@@ -13,6 +13,9 @@ private:
 	int MainMenuSelected;
 	Font font;
 	Text MainMenu[Max_main_menu];
+	const char* Buttons[4] = { "Play", "Options", "About" , "Exit" };
+	const int offsetButtons = 100;
+
 
 public:
 	mainMenu(float width, float height);

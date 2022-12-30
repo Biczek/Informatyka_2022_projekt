@@ -44,12 +44,12 @@ int main()
 	RectangleShape Pbackground;
 	Pbackground.setSize(Vector2f(1000.f, 800.f));
 	Texture back_texture;
-	back_texture.loadFromFile("Images/Ziemia.jpg");
+	back_texture.loadFromFile("Images/Galaktyka.jpg");
 	Pbackground.setTexture(&back_texture);
 
 	//photo to options
 	RectangleShape Obackground;
-	Pbackground.setSize(Vector2f(400.f, 800.f));
+	Pbackground.setSize(Vector2f(800.f, 800.f));
 	Texture Optiontexture;
 	back_texture.loadFromFile("Images/Konstelacja.jpg");
 	Pbackground.setTexture(&Optiontexture);
@@ -86,12 +86,11 @@ int main()
 				if (event.key.code == Keyboard::Return)
 				{
 					RenderWindow Play(VideoMode(1000, 800), "game_name");
-					RenderWindow OPTIONS(VideoMode(400, 800), "OPTIONS");
+					RenderWindow OPTIONS(VideoMode(800, 800), "OPTIONS");
 					RenderWindow ABOUT(VideoMode(800, 800), "ABOUT");
 					
 					int x = mainMenu.MainMenuPressed();
 
-					
 					if (x == 0)
 					{
 						
@@ -201,15 +200,16 @@ int main()
 									OPTIONS.close();
 									ABOUT.close();
 									Play.clear();
-									//Play.draw(Pbackground);
 									//Update
 									Enemies.updateEnemies(Play);
 									player.updatePlayer(Play, velocity);
 									player.updateBullet(Play);
 									//Draw
+									//Play.draw(Pbackground);
 									Enemies.renderEnemies(Play);
 									player.renderPlayer(Play);
 									player.renderBullet(Play);
+									
 
 									Play.display();
 								}
@@ -220,6 +220,7 @@ int main()
 							
 
 							}
+							
 					}
 
 					if (x == 1)
@@ -245,7 +246,7 @@ int main()
 							Play.close();
 							OPTIONS.clear();
 							ABOUT.close();
-							//OPTIONS.draw(Obackground);
+							OPTIONS.draw(Obackground);
 
 							OPTIONS.display();
 
@@ -274,7 +275,7 @@ int main()
 							Play.close();
 							OPTIONS.close();
 							ABOUT.clear();
-							//ABOUT.draw(ABbackground);
+							ABOUT.draw(ABbackground);
 
 							ABOUT.display();
 
@@ -288,7 +289,7 @@ int main()
 				}
 		}
 		MENU.clear();
-		//MENU.draw(background);
+		MENU.draw(background);
 		mainMenu.draw(MENU);
 		MENU.display();
 	}

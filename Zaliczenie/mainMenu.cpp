@@ -7,32 +7,15 @@ mainMenu::mainMenu(float width, float height)
 		cout << "No font is here";
 	}
 
-	//Play
-	MainMenu[0].setFont(font);
-	MainMenu[0].setFillColor(Color::White);
-	MainMenu[0].setString("Play");
-	MainMenu[0].setCharacterSize(70);
-	MainMenu[0].setPosition(400, 200);
-	//Options
-	MainMenu[1].setFont(font);
-	MainMenu[1].setFillColor(Color::White);
-	MainMenu[1].setString("Options");
-	MainMenu[1].setCharacterSize(70);
-	MainMenu[1].setPosition(400, 300);
-	//About
-	MainMenu[2].setFont(font);
-	MainMenu[2].setFillColor(Color::White);
-	MainMenu[2].setString("About");
-	MainMenu[2].setCharacterSize(70);
-	MainMenu[2].setPosition(400, 400);
-	//Exite
-	MainMenu[3].setFont(font);
-	MainMenu[3].setFillColor(Color::White);
-	MainMenu[3].setString("Exit");
-	MainMenu[3].setCharacterSize(70);
-	MainMenu[3].setPosition(400, 500);
-
-	MainMenuSelected = -1;
+	for (int i = 0; i <= 3;i++)
+	{
+		MainMenu[i].setFillColor(Color::White);
+		MainMenu[i].setFont(font);
+		MainMenu[i].setString(Buttons[i]);
+		MainMenu[i].setCharacterSize(70);
+		MainMenu[i].setPosition(400, 200 + offsetButtons * i);
+	}
+	MainMenuSelected = 0;
 }
 mainMenu::~mainMenu()
 {
