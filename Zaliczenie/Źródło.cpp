@@ -61,6 +61,7 @@ int main()
 	Abouttexture.loadFromFile("Images/Konstelacja.jpg");
 	ABbackground.setTexture(&Abouttexture);
 
+	bool dziala = false;
 
 	while (MENU.isOpen())
 	{
@@ -180,7 +181,11 @@ int main()
 
 											if (confirmMenu.ReturnMenuSelected() == true)
 											{
-												Play.close();
+												dziala = true;
+											}
+											else
+											{
+												dziala = false;
 											}
 											
 										
@@ -191,19 +196,27 @@ int main()
 									}
 
 								}
-								
-								OPTIONS.close();
-								ABOUT.close();
-								Play.clear();
-								//Play.draw(Pbackground);
-								//Update
-								Enemies.updateEnemies(Play);
-								player.updatePlayer(Play, velocity);
-								//Draw
-								Enemies.renderEnemies(Play);
-								player.renderPlayer(Play);
+								if (dziala == false)
+								{
+									OPTIONS.close();
+									ABOUT.close();
+									Play.clear();
+									//Play.draw(Pbackground);
+									//Update
+									Enemies.updateEnemies(Play);
+									player.updatePlayer(Play, velocity);
+									player.updateBullet(Play);
+									//Draw
+									Enemies.renderEnemies(Play);
+									player.renderPlayer(Play);
+									player.renderBullet(Play);
 
-								Play.display();
+									Play.display();
+								}
+								else
+								{
+									Play.close();
+								}
 							
 
 							}

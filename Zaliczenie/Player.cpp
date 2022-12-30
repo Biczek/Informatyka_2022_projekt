@@ -3,7 +3,14 @@
 Player::Player()
 {
 	initPlayer();
-};
+	initBullet();
+	initVariables();
+}
+void Player::initVariables()
+{
+	shot = false;
+}
+;
 
 void Player::initPlayer()
 {
@@ -40,15 +47,43 @@ void Player::updatePlayer(RenderTarget& target, float velocity)
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
 		Gracz.setFillColor(Color::Blue);
-
+		shot = true;
+		Bullet.setPosition(Gracz.getPosition().x, Gracz.getPosition().y);
 	}
 	else
 	{
 		Gracz.setFillColor(Color::Red);
 	}
+	updateBullet(target);
 };
 
 void Player::renderPlayer(RenderTarget& target)
 {
 	target.draw(Gracz);
-};
+}
+void Player::initBullet()
+{
+	Bullet.setFillColor(Color::Red);
+	Bullet.setRadius(20.f);
+	Bullet.setOrigin(Bullet.getRadius() / 2, Bullet.getRadius()/2);
+	
+}
+void Player::updateBullet(RenderTarget& target)
+{
+	
+
+	if (Bullet.getPosition().y > 0 || shot == true)
+	{
+		Bullet.move(0.f, -5.f);
+
+		if (Bullet.getPosition().y == 0)
+		{
+			shot = false;
+		}
+	}
+}
+void Player::renderBullet(RenderTarget& target)
+{
+	target.draw(Bullet);
+}
+;

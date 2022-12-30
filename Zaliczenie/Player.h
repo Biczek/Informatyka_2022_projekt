@@ -12,14 +12,25 @@ class Player
 {
 private:
 
-	sf::RectangleShape Gracz;
+
+	int health;
+	bool shot;
+
+	RectangleShape Gracz;
+	CircleShape Bullet;
 
 public:
 	Player();
 
+	void initVariables();
+
 	void initPlayer();
 	void updatePlayer(RenderTarget& target, float velocity);
 	void renderPlayer(RenderTarget& target);
+
+	void initBullet();
+	void updateBullet(RenderTarget& target);
+	void renderBullet(RenderTarget& target);
 };
 
 
