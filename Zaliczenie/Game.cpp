@@ -11,7 +11,6 @@ void Game::update(RenderTarget& target, float velocity)
 {
 	Enemies.updateEnemies(target);
 	player.updatePlayer(target, velocity);
-	player.updateBullet(target);
 	updateText();
 	updateColision();
 }
@@ -23,16 +22,16 @@ void Game::updateColision()
 
 	for (int i = 0; i <= Enemies.enemies.size();i++)
 	{
-		if (Enemies.enemies[i].getGlobalBounds().intersects(player.Gracz.getGlobalBounds()))
+		if (Enemies.enemies[i].getGlobalBounds().intersects(player.sprite.getGlobalBounds()))
 		{
 			hit_player = true;
 		
 		}
-		if (Enemies.enemies[i].getGlobalBounds().intersects(player.Bullet.getGlobalBounds()))
+		/*if (Enemies.enemies[i].getGlobalBounds().intersects(player.Bullet.getGlobalBounds()))
 		{
 			hit_bullet = true;
 			Enemies.enemies.erase(this->Enemies.enemies.begin() + i);
-		}
+		}*/
 	}
 
 	if (hit_player)
@@ -49,7 +48,6 @@ void Game::render(RenderTarget& target)
 {
 	Enemies.renderEnemies(target);
 	player.renderPlayer(target);
-	player.renderBullet(target);
 	renderText(target);
 }
 

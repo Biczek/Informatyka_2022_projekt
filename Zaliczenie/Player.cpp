@@ -2,70 +2,68 @@
 
 Player::Player()
 {
-	initPlayer();
 	initVariables();
+	initTexture();
+	initSprite();
+
+}
+void Player::initTexture()
+{
+	if (!this->texture.loadFromFile("Texture/ship.png"))
+	{
+		cout << "ERROR::LOAD_TEXTURE::SHIP"<<"\n";
+	}
+}
+void Player::initSprite()
+{
+	this->sprite.setTexture(this->texture);
+
+	this->sprite.scale(0.1f,0.1f);
+
 }
 void Player::initVariables()
 {
-	shot = false;
+	
 }
 ;
 
-void Player::initPlayer()
+void Player::moveSprite(const float dirX, const float dirY, const float velocity)
 {
-	Gracz.setSize(Vector2f(100.f, 100.f));
-	Gracz.setFillColor(Color::Red);
-	Gracz.setOrigin(50.f, 50.f);
-	Gracz.setPosition(500.f, 600.f);
-
-
-};
-
+	sprite.move(dirX * velocity, dirY * velocity);
+}
 void Player::updatePlayer(RenderTarget& target, float velocity)
 {
-	if (Keyboard::isKeyPressed(Keyboard::A) && Gracz.getPosition().x > 0 + Gracz.getSize().x / 2)
+	if (Keyboard::isKeyPressed(Keyboard::A))
 	{
-		Gracz.move(-velocity, 0.f);
-
+		moveSprite(-1.f, 0.f, velocity);
 	}
-	else if (Keyboard::isKeyPressed(Keyboard::D) && Gracz.getPosition().x + Gracz.getSize().x / 2 < target.getSize().x)
+	if (Keyboard::isKeyPressed(Keyboard::D))
 	{
-		Gracz.move(velocity, 0.f);
-
+		moveSprite(1.f, 0.f, velocity);
 	}
-
-	if (Keyboard::isKeyPressed(Keyboard::W) && Gracz.getPosition().y > 0 + Gracz.getSize().y / 2)
+	if (Keyboard::isKeyPressed(Keyboard::W))
 	{
-		Gracz.move(0.f, -velocity);
-
+		moveSprite(0.f, -1.f, velocity);
 	}
-	else if (Keyboard::isKeyPressed(Keyboard::S) && Gracz.getPosition().y + Gracz.getSize().y / 2 < target.getSize().y)
+	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
-		Gracz.move(0.f, velocity);
+		moveSprite(0.f, 1.f, velocity);
 	}
+
 
 	if (Mouse::isButtonPressed(Mouse::Left))
 	{
-		Gracz.setFillColor(Color::Blue);
-		shot = true;
-		Bullet.setPosition(Gracz.getPosition().x, Gracz.getPosition().y);
-	}
-	else
-	{
-		Gracz.setFillColor(Color::Red);
+
 	}
 };
 
 void Player::renderPlayer(RenderTarget& target)
 {
-	target.draw(Gracz);
+	target.draw(sprite);
 }
 
 
-const sf::RectangleShape& Player::getShape() const
-{
-	return Gracz;
-}
+
 
 
 

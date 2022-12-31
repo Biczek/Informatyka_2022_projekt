@@ -16,25 +16,24 @@ class Player
 {
 private:
 
-	bool shot;
 	Text text;
 	Font font;
 
+	Texture texture;
+
+	void initTexture();
+	void initSprite();
+
 public:
 
-	RectangleShape Gracz;
+	Sprite sprite;
 
 	Player();
 
+	void moveSprite(const float dirX, const float dirY, const float velocity);
 	void initVariables();
-
-	void initPlayer();
 	void updatePlayer(RenderTarget& target, float velocity);
 	void renderPlayer(RenderTarget& target);
-
-
-	const sf::RectangleShape& getShape() const;
-
 };
 
 
