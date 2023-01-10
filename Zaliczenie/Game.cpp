@@ -9,10 +9,9 @@ Game::Game()
 
 void Game::update(RenderTarget& target, float velocity)
 {
-	Enemies.updateEnemies(target);
 	updateText();
 	updateColision();
-	input();
+	input(target);
 	updateBullet();
 	player.updatePlayer();
 
@@ -23,23 +22,7 @@ void Game::updateColision()
 	bool hit_player = false;
 	bool hit_bullet = false;
 
-	for (int i = 0; i <= Enemies.enemies.size();i++)
-	{
-		if (Enemies.enemies[i].getGlobalBounds().intersects(player.sprite.getGlobalBounds()))
-		{
-			hit_player = true;
-		
-		}
-	}
-
-	if (hit_player)
-	{
-		health -= 1;
-	}
-	if (hit_bullet)
-	{
-		points += 1;
-	}
+	
 }
 
 void Game::updateBullet()
@@ -61,21 +44,25 @@ void Game::updateBullet()
 	}
 }
 
-void Game::input()
+void Game::updateEnemies()
 {
-	if (Keyboard::isKeyPressed(Keyboard::A))
+}
+
+void Game::input(RenderTarget& target)
+{
+	if (Keyboard::isKeyPressed(Keyboard::A) && (player.getPos().x > 0) )
 	{
 		player.moveSprite(-1.f, 0.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::D))
+	if (Keyboard::isKeyPressed(Keyboard::D) && ((player.getPos().x + player.getBounds().width )< target.getSize().x ))
 	{
 		player.moveSprite(1.f, 0.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::W))
+	if (Keyboard::isKeyPressed(Keyboard::W) && (player.getPos().y > 0))
 	{
 		player.moveSprite(0.f, -1.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::S))
+	if (Keyboard::isKeyPressed(Keyboard::S) && ((player.getPos().y + player.getBounds().height)< target.getSize().y))
 	{
 		player.moveSprite(0.f, 1.f, velocityPlayer);
 	}
@@ -90,9 +77,14 @@ void Game::input()
 
 void Game::render(RenderTarget& target)
 {
-	Enemies.renderEnemies(target);
 	player.renderPlayer(target);
 	renderText(target);
+
+	for (auto *enemy : enemies)
+	{
+		enemy->render(&target);
+	}
+
 
 	for (auto *bullet : bullets)
 	{

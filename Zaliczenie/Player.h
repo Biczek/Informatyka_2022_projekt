@@ -37,6 +37,7 @@ public:
 	void updateAttack();
 	void updatePlayer();
 	const bool canAttack();
+	const FloatRect getBounds() const;
 
 	void moveSprite(const float dirX, const float dirY, const float velocity);
 	void initVariables();

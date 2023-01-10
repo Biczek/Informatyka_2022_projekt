@@ -1,38 +1,34 @@
 #pragma once
-#include"SFML\Graphics.hpp"
-#include"SFML\Window.hpp"
-#include"SFML\System.hpp"
-#include<ctime>
-#include<sstream>
-#include<iostream>
-#include<vector>
+#include "Player.h"
 
-using namespace sf;
-using namespace std;
 
 class Enemies
 {
 private:
 
-	int timer = 0;
-	int timer_max = 5;
+	int hp;
+	int hp_max;
+	int demage;
+
+	int timer; 
+	int timer_max;
 	int max_enemies;
 
 	float velocity;
 
 public:
-	
-	std::vector<sf::ConvexShape> enemies;
 	sf::ConvexShape enemy;
 
-	Enemies();
+	Enemies(float pos_x,float pos_y);
+
 	void renderEnemies(RenderTarget& target);
 	void initEnemies();
-	void updateEnemies(RenderTarget& target);
-	void spawnEnemies(RenderTarget& target);
-	void moveEnemie(int numeber_of_enemy, const float velocity, const float dirX, const float dirY);
 
+	void initVariables();
 
-	const sf::ConvexShape& getShape() const;
+	void update(RenderTarget& target, int level);
+	void render(RenderTarget* target);
+
+	const FloatRect getBounds() const;
 };
 

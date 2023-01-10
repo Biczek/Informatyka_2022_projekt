@@ -1,8 +1,10 @@
 #include "Enemies.h"
 
-Enemies::Enemies()
+Enemies::Enemies(float pos_x, float pos_y)
 {
 	initEnemies();
+	initVariables();
+	enemy.setPosition(pos_x, pos_x);
 };
 void Enemies::initEnemies()
 {
@@ -23,84 +25,36 @@ void Enemies::initEnemies()
 }
 void Enemies::renderEnemies(RenderTarget& target)
 {
-	for (auto& e : this->enemies)
-	{
-		target.draw(e);
-	}
+		target.draw(enemy);
 }
-void Enemies::spawnEnemies(RenderTarget& target)
+
+const FloatRect Enemies::getBounds() const
 {
-	enemy.setPosition(static_cast<float>(rand() % static_cast<int>(target.getSize().x) - 15.f), static_cast<float>(rand() % static_cast<int>(100)));
-
-	//Randomize enemy type
-
-	int type = rand() % 5;
-
-	switch (type)
-	{
-	case 0:
-		
-		this->enemy.setFillColor(sf::Color::Magenta);
-
-		break;
-	case 1:
-		
-		this->enemy.setFillColor(sf::Color::Blue);
-
-		break;
-	case 2:
-		
-		this->enemy.setFillColor(sf::Color::Cyan);
-
-		break;
-	case 3:
-		
-		this->enemy.setFillColor(sf::Color::Red);
-
-		break;
-	case 4:
-		
-		this->enemy.setFillColor(sf::Color::Green);
-
-		break;
-
-	default:
-	
-		this->enemy.setFillColor(sf::Color::Yellow);
-		break;
-	}
-
-	//Spawn the enemy
-	this->enemies.push_back(this->enemy);
+	return enemy.getGlobalBounds();
 }
 
 
 
-const sf::ConvexShape& Enemies::getShape() const
-{
-	return enemy;
-}
 
-
-void Enemies::updateEnemies(RenderTarget& target)
+void Enemies::update(RenderTarget& target, int level)
 {
 
-	if (enemies.size() <= max_enemies)
-	{
-		if (timer < timer_max)
-		{
-			spawnEnemies(target);
-			timer = 0;
-		}
-		else
-		{
-			timer++;
-		}
-	};
-
 }
 
-void Enemies::moveEnemie(int numeber_of_enemy,const float velocity,const float dirX,const float dirY)
+void Enemies::initVariables()
 {
-	enemies[numeber_of_enemy].move(velocity*dirX,velocity*dirY);
+	 hp = 0;
+	 hp_max = 1;
+	 demage = 1;
+	 timer = 0;
+	 timer_max = 20;
+	 max_enemies = 10;
+
+	 velocity = 1.f;
 }
+
+void Enemies::render(RenderTarget* target)
+{
+	target->draw(enemy);
+}
+

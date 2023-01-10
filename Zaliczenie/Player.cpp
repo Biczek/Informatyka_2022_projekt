@@ -33,6 +33,10 @@ const bool Player::canAttack()
 	return false;
 	
 }
+const FloatRect Player::getBounds() const
+{
+	return sprite.getGlobalBounds();
+}
 void Player::initTexture()
 {
 	if (!this->texture.loadFromFile("Texture/ship.png"))
