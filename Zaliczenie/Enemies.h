@@ -4,6 +4,7 @@
 #include"SFML\System.hpp"
 #include<ctime>
 #include<sstream>
+#include<iostream>
 #include<vector>
 
 using namespace sf;
@@ -13,10 +14,11 @@ class Enemies
 {
 private:
 
-	int max_enemies = 10;
 	int timer = 0;
 	int timer_max = 5;
-	bool direction = false;
+	int max_enemies;
+
+	float velocity;
 
 public:
 	
@@ -28,6 +30,8 @@ public:
 	void initEnemies();
 	void updateEnemies(RenderTarget& target);
 	void spawnEnemies(RenderTarget& target);
+	void moveEnemie(int numeber_of_enemy, const float velocity, const float dirX, const float dirY);
+
 
 	const sf::ConvexShape& getShape() const;
 };

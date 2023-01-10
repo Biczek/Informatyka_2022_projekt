@@ -10,9 +10,12 @@ Game::Game()
 void Game::update(RenderTarget& target, float velocity)
 {
 	Enemies.updateEnemies(target);
-	player.updatePlayer(target, velocity);
 	updateText();
 	updateColision();
+	input();
+	updateBullet();
+	player.updatePlayer();
+
 }
 
 void Game::updateColision()
@@ -27,11 +30,6 @@ void Game::updateColision()
 			hit_player = true;
 		
 		}
-		/*if (Enemies.enemies[i].getGlobalBounds().intersects(player.Bullet.getGlobalBounds()))
-		{
-			hit_bullet = true;
-			Enemies.enemies.erase(this->Enemies.enemies.begin() + i);
-		}*/
 	}
 
 	if (hit_player)
@@ -44,11 +42,62 @@ void Game::updateColision()
 	}
 }
 
+void Game::updateBullet()
+{
+	unsigned counter = 0;
+	for (auto* bullet : bullets)
+	{
+		bullet->update();
+
+		//Bullet culling top of the screen
+		if (bullet->getBounds().top + bullet->getBounds().height < 0)
+		{
+			//delete bullet
+			delete bullets.at(counter);
+			bullets.erase(bullets.begin() + counter);
+			--counter;
+		}
+		counter++;
+	}
+}
+
+void Game::input()
+{
+	if (Keyboard::isKeyPressed(Keyboard::A))
+	{
+		player.moveSprite(-1.f, 0.f, velocityPlayer);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::D))
+	{
+		player.moveSprite(1.f, 0.f, velocityPlayer);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::W))
+	{
+		player.moveSprite(0.f, -1.f, velocityPlayer);
+	}
+	if (Keyboard::isKeyPressed(Keyboard::S))
+	{
+		player.moveSprite(0.f, 1.f, velocityPlayer);
+	}
+
+	if (Mouse::isButtonPressed(Mouse::Left) && player.canAttack())
+	{
+		bullets.push_back(new Bullet(player.getPos().x, player.getPos().y, 10.f));
+	}
+}
+
+
+
 void Game::render(RenderTarget& target)
 {
 	Enemies.renderEnemies(target);
 	player.renderPlayer(target);
 	renderText(target);
+
+	for (auto *bullet : bullets)
+	{
+		bullet->render(&target);
+	}
 }
 
 void Game::initFont()
@@ -71,6 +120,7 @@ void Game::initVariables()
 	health = 20;
 	points = 0;
 }
+
 void Game::updateText()
 {
 	std::stringstream ss;

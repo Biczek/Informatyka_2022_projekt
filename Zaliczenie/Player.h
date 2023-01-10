@@ -16,6 +16,9 @@ class Player
 {
 private:
 
+	float attackCooldown;
+	float attackCooldownMax = 100.f;
+
 	Text text;
 	Font font;
 
@@ -28,11 +31,15 @@ public:
 
 	Sprite sprite;
 
+	const Vector2f& getPos() const;
+
 	Player();
+	void updateAttack();
+	void updatePlayer();
+	const bool canAttack();
 
 	void moveSprite(const float dirX, const float dirY, const float velocity);
 	void initVariables();
-	void updatePlayer(RenderTarget& target, float velocity);
 	void renderPlayer(RenderTarget& target);
 };
 

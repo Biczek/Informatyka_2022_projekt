@@ -1,11 +1,37 @@
 #include "Player.h"
 
+const Vector2f& Player::getPos() const
+{
+	return sprite.getPosition();
+}
+
 Player::Player()
 {
 	initVariables();
 	initTexture();
 	initSprite();
 
+}
+void Player::updateAttack()
+{
+	if (attackCooldown < attackCooldownMax)
+	{
+		attackCooldown += 1.f;
+	}
+}
+void Player::updatePlayer()
+{
+	updateAttack();
+}
+const bool Player::canAttack()
+{
+	if (attackCooldown >= attackCooldownMax)
+	{
+		attackCooldown = 0.f;
+		return true;
+	}
+	return false;
+	
 }
 void Player::initTexture()
 {
@@ -31,31 +57,6 @@ void Player::moveSprite(const float dirX, const float dirY, const float velocity
 {
 	sprite.move(dirX * velocity, dirY * velocity);
 }
-void Player::updatePlayer(RenderTarget& target, float velocity)
-{
-	if (Keyboard::isKeyPressed(Keyboard::A))
-	{
-		moveSprite(-1.f, 0.f, velocity);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::D))
-	{
-		moveSprite(1.f, 0.f, velocity);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::W))
-	{
-		moveSprite(0.f, -1.f, velocity);
-	}
-	if (Keyboard::isKeyPressed(Keyboard::S))
-	{
-		moveSprite(0.f, 1.f, velocity);
-	}
-
-
-	if (Mouse::isButtonPressed(Mouse::Left))
-	{
-
-	}
-};
 
 void Player::renderPlayer(RenderTarget& target)
 {

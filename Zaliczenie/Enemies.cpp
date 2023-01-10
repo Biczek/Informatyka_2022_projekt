@@ -39,33 +39,33 @@ void Enemies::spawnEnemies(RenderTarget& target)
 	switch (type)
 	{
 	case 0:
-		this->enemy.setScale(2.f, 2.f);
+		
 		this->enemy.setFillColor(sf::Color::Magenta);
 
 		break;
 	case 1:
-		this->enemy.setScale(2.f, 2.f);
+		
 		this->enemy.setFillColor(sf::Color::Blue);
 
 		break;
 	case 2:
-		this->enemy.setScale(2.f, 2.f);
+		
 		this->enemy.setFillColor(sf::Color::Cyan);
 
 		break;
 	case 3:
-		this->enemy.setScale(2.f, 2.f);
+		
 		this->enemy.setFillColor(sf::Color::Red);
 
 		break;
 	case 4:
-		this->enemy.setScale(2.f, 2.f);
+		
 		this->enemy.setFillColor(sf::Color::Green);
 
 		break;
 
 	default:
-		this->enemy.setScale(2.f, 2.f);
+	
 		this->enemy.setFillColor(sf::Color::Yellow);
 		break;
 	}
@@ -73,6 +73,7 @@ void Enemies::spawnEnemies(RenderTarget& target)
 	//Spawn the enemy
 	this->enemies.push_back(this->enemy);
 }
+
 
 
 const sf::ConvexShape& Enemies::getShape() const
@@ -83,6 +84,7 @@ const sf::ConvexShape& Enemies::getShape() const
 
 void Enemies::updateEnemies(RenderTarget& target)
 {
+
 	if (enemies.size() <= max_enemies)
 	{
 		if (timer < timer_max)
@@ -96,28 +98,9 @@ void Enemies::updateEnemies(RenderTarget& target)
 		}
 	};
 
-	for (int i = 0; i < enemies.size(); i++)
-	{
-		if (direction == false)
-		{
-			enemies[i].move(0.f, 1.f); //velocity down
+}
 
-			if (enemies[i].getPosition().y >= target.getSize().y)
-			{
-				direction = true;
-
-			};
-
-		}
-		if (direction == true)
-		{
-			enemies[i].move(0.f, -5.f); //velocity up
-
-			if (enemies[i].getPosition().y <= 0)
-			{
-				direction = false;
-
-			}
-		}
-	}
-};
+void Enemies::moveEnemie(int numeber_of_enemy,const float velocity,const float dirX,const float dirY)
+{
+	enemies[numeber_of_enemy].move(velocity*dirX,velocity*dirY);
+}

@@ -2,48 +2,35 @@
 
 
 
-
-void Bullet::spawnBullet(float x, float y)
+Bullet::Bullet( float pos_x, float pos_y, float Movementspeed)
 {
-	bullet.setFillColor(Color::Red);
-	bullet.setRadius(20.f);
-	bullet.setOrigin(bullet.getRadius() / 2, bullet.getRadius() / 2);
-	bullet.setPosition(x, y);
-
-	bullets.push_back(bullet);
+	initTexture();
+	shape.setTexture(texture);
+	movementspeed = Movementspeed;
+	shape.setPosition(pos_x, pos_y);
 }
 
-Bullet::Bullet()
+const FloatRect Bullet::getBounds() const
 {
+	return shape.getGlobalBounds();
 }
 
-void Bullet::updateBullet(float x, float y)
+void Bullet::initTexture()
 {
-	if (bullets.size() <= max_bullets)
+	if (!this->texture.loadFromFile("Texture/bullet.PNG"))
 	{
-		if (timer < max_timer)
-		{
-			spawnBullet(x,y);
-			timer = 0;
-		}
-		else
-		{
-			timer++;
-		}
-	};
-	
-
-	
-}
-void Bullet::renderBullet(RenderTarget& target)
-{
-	for (auto& e : this->bullets)
-	{
-		target.draw(e);
-	}
-
-	for (int i = 0; i < bullets.size(); i++)
-	{
-		bullets[i].move(0.f, -5.f); // velocity of bullets
+		cout << "ERROR::LOAD_TEXTURE::BULLET" << "\n";
 	}
 }
+
+void Bullet::update()
+{
+	shape.move(0.f,-0.1f*movementspeed);
+
+}
+
+void Bullet::render(RenderTarget* target)
+{
+	target->draw(shape);
+}
+

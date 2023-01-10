@@ -18,11 +18,19 @@ private:
 	int health;
 	int points;
 
+	
+
+	vector<Bullet*> bullets;
+
+
 	Enemies Enemies;
 	Player player;
 	Font font;
 	Text text;
+	
+	//Speed
 
+	float velocityPlayer = 1.f;
 
 public:
 	
@@ -31,7 +39,9 @@ public:
 	//Update
 	void update(RenderTarget& target, float velocity);
 	void updateColision();
-
+	void updateBullet();
+	void input();
+	
 	//Render
 	void render(RenderTarget& target);
 
@@ -43,7 +53,6 @@ public:
 	void initText();
 
 	void initVariables();
-
 
 };
 

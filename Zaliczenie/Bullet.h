@@ -5,18 +5,19 @@
 class Bullet
 {
 private:
-	int max_bullets = 3;
-	int timer = 0;
-	int max_timer = 5;
 
-	CircleShape bullet;
-	vector<sf::CircleShape>bullets;
+	Sprite shape;
+	Texture texture;
+	Vector2f Position;
+	float movementspeed;
 
 public:
-	Bullet();
+	Bullet( float pos_x, float pos_y, float Movementspeed);
 
-	void updateBullet(float x, float y);
-	void renderBullet(RenderTarget& target);
-	void spawnBullet(float x, float y);
+	const FloatRect getBounds() const;
+
+	void initTexture();
+	void update();
+	void render(RenderTarget* target);
 };
 
