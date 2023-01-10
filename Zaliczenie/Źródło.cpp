@@ -15,7 +15,7 @@ using namespace sf;
 
 
 float velocity = 2.f;
-
+float jazda = 1.f;
 
 int main()
 {
