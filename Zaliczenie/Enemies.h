@@ -10,25 +10,20 @@ private:
 	int hp_max;
 	int demage;
 
-	int timer; 
-	int timer_max;
-	int max_enemies;
-
 	float velocity;
 
+
 public:
-	sf::ConvexShape enemy;
+	ConvexShape enemy;
 
-	Enemies(float pos_x,float pos_y);
+	Enemies(float pos_x, float pos_y);
 
-	void renderEnemies(RenderTarget& target);
 	void initEnemies();
-
 	void initVariables();
 
-	void update(RenderTarget& target, int level);
+	void update();
+	void enemys_level(int level);
 	void render(RenderTarget* target);
-
 	const FloatRect getBounds() const;
 };
 

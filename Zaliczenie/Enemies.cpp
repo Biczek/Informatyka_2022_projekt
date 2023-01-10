@@ -23,10 +23,6 @@ void Enemies::initEnemies()
 	enemy.setPosition(50.f, 50.f);
 	enemy.setScale(Vector2f(2.f, 2.f));
 }
-void Enemies::renderEnemies(RenderTarget& target)
-{
-		target.draw(enemy);
-}
 
 const FloatRect Enemies::getBounds() const
 {
@@ -36,9 +32,9 @@ const FloatRect Enemies::getBounds() const
 
 
 
-void Enemies::update(RenderTarget& target, int level)
+void Enemies::update()
 {
-
+	enemy.move(0.f, 1.f*velocity);
 }
 
 void Enemies::initVariables()
@@ -46,11 +42,9 @@ void Enemies::initVariables()
 	 hp = 0;
 	 hp_max = 1;
 	 demage = 1;
-	 timer = 0;
-	 timer_max = 20;
-	 max_enemies = 10;
-
+	 
 	 velocity = 1.f;
+	 
 }
 
 void Enemies::render(RenderTarget* target)
@@ -58,3 +52,40 @@ void Enemies::render(RenderTarget* target)
 	target->draw(enemy);
 }
 
+void Enemies::enemys_level(int level)
+{
+	switch (level)
+	{
+	case(1):
+		enemy.setFillColor(Color::Green);
+		enemy.setScale(2.f, 2.f);
+
+		velocity = 1.f;
+		hp_max = 1;
+		demage = 1;
+	case(2):
+		enemy.setFillColor(Color::Yellow);
+		enemy.setScale(1.f, 1.f);
+
+		velocity = 1.f;
+		hp_max = 2;
+		demage = 1;
+	case(3):
+		enemy.setFillColor(Color::Red);
+		enemy.setScale(1.f, 1.f);
+
+		velocity = 2.f;
+		hp_max = 2;
+		demage = 2;
+
+	default:
+		enemy.setFillColor(Color::Red);
+		enemy.setScale(2.f, 2.f);
+
+		velocity = 1.f;
+		hp_max = 1;
+		demage = 1;
+
+		break;
+	}
+}

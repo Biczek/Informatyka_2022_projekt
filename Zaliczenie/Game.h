@@ -18,7 +18,10 @@ private:
 	int health;
 	int points;
 
-	
+	int enemies_amout;
+	int enemies_amout_max;
+
+
 	//Bullets
 	vector<Bullet*> bullets;
 

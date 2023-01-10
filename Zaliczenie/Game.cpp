@@ -13,12 +13,15 @@ void Game::update(RenderTarget& target, float velocity)
 	updateColision();
 	input(target);
 	updateBullet();
+	updateEnemies();
 	player.updatePlayer();
 
 }
 
 void Game::updateColision()
 {
+	//Make colision here
+
 	bool hit_player = false;
 	bool hit_bullet = false;
 
@@ -46,6 +49,18 @@ void Game::updateBullet()
 
 void Game::updateEnemies()
 {
+
+	for (auto* enemy : enemies)
+	{
+		enemy->enemys_level(1);
+		enemy->update();
+	}
+
+	if (enemies_amout < enemies_amout_max)
+	{
+		enemies.push_back(new Enemies(rand() % 1000, rand() % 400));
+		enemies_amout++;
+	}
 }
 
 void Game::input(RenderTarget& target)
@@ -111,6 +126,10 @@ void Game::initVariables()
 {
 	health = 20;
 	points = 0;
+
+	enemies_amout = 0;
+	enemies_amout_max = 3;
+
 }
 
 void Game::updateText()
