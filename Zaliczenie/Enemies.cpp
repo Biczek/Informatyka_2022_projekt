@@ -32,14 +32,35 @@ const FloatRect Enemies::getBounds() const
 
 
 
+
+
 void Enemies::update(RenderTarget& target)
 {
-	
+
+	if (down == true)
+	{
+		enemy.move(0.f, 1.f);
+
+		if (enemy.getPosition().y >= target.getSize().y)
+		{
+			down = false;
+		}
+	}
+	if(down == false)
+	{
+		enemy.move(0.f, -1.f);
+
+		if (enemy.getPosition().y < 0)
+		{
+			down = true;
+		}
+	}
+
 }
 
 void Enemies::initVariables()
 {
-
+	down =  true;
 }
 
 void Enemies::render(RenderTarget* target)

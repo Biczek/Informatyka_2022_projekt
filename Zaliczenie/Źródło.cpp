@@ -95,11 +95,14 @@ int main()
 							while (Play.isOpen())
 							{
 								Event aevent;
-								
+							
 
 								while (Play.pollEvent(aevent))
 								{
-								
+									if (!game.endGame())
+									{
+										GamePlay = true;
+									}
 
 									if (aevent.type == Event::Closed)
 									{
@@ -136,14 +139,14 @@ int main()
 											RenderWindow CONFIRM(VideoMode(600, 200), "CONFIRM");
 											Confirm confirmMenu(CONFIRM.getSize().x, CONFIRM.getSize().y);
 
-
 											while (CONFIRM.isOpen())
 											{
-
 												
+											
 
 												while (CONFIRM.pollEvent(aevent))
 												{
+
 													if (aevent.type == Event::KeyPressed)
 													{
 
@@ -183,7 +186,7 @@ int main()
 											{
 												GamePlay = false;
 											}
-											
+						
 										
 										}
 										

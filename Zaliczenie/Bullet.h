@@ -19,5 +19,9 @@ public:
 	void initTexture();
 	void update();
 	void render(RenderTarget* target);
+	const FloatRect getBonds() const
+	{
+		return shape.getGlobalBounds();
+	}
 };
 

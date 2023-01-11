@@ -11,7 +11,7 @@ private:
 	int demage;
 
 	float velocity;
-
+	bool down;
 
 public:
 	ConvexShape enemy;
@@ -25,5 +25,6 @@ public:
 	void enemys_level(int level);
 	void render(RenderTarget* target);
 	const FloatRect getBounds() const;
+	
 };
 

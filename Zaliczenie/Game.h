@@ -17,6 +17,10 @@ private:
 
 	int health;
 	int points;
+	bool touched;
+	bool play;
+
+	unsigned delay;
 
 	int enemies_amout;
 	int enemies_amout_max;
@@ -46,7 +50,7 @@ public:
 	void update(RenderTarget& target, float velocity);
 	void updateColision();
 	void updateBullet();
-	void updateEnemies();
+	void updateEnemies(RenderTarget& target);
 	void input(RenderTarget& target);
 	
 	//Render
@@ -61,5 +65,9 @@ public:
 
 	void initVariables();
 
+	bool endGame()
+	{
+		return play;
+	}
 };
 
