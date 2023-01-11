@@ -24,11 +24,12 @@ public:
 	void MoveUp();
 	void MoveDown();
 
+
 	int MainMenuPressed()
 	{
 		return MainMenuSelected;
 	}
 	~mainMenu();
-
+	
 };
 

@@ -210,7 +210,6 @@ int main()
 								else
 								{
 									Play.close();
-									
 								}
 							
 

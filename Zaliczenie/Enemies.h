@@ -21,7 +21,7 @@ public:
 	void initEnemies();
 	void initVariables();
 
-	void update();
+	void update(RenderTarget& target);
 	void enemys_level(int level);
 	void render(RenderTarget* target);
 	const FloatRect getBounds() const;

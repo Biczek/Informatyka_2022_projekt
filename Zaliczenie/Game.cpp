@@ -49,10 +49,9 @@ void Game::updateBullet()
 
 void Game::updateEnemies()
 {
-
 	for (auto* enemy : enemies)
 	{
-		enemy->enemys_level(1);
+		enemy->enemys_level(1);//do poprawy
 		enemy->update();
 	}
 
@@ -61,8 +60,9 @@ void Game::updateEnemies()
 		enemies.push_back(new Enemies(rand() % 1000, rand() % 400));
 		enemies_amout++;
 	}
-}
+	
 
+}
 void Game::input(RenderTarget& target)
 {
 	if (Keyboard::isKeyPressed(Keyboard::A) && (player.getPos().x > 0) )

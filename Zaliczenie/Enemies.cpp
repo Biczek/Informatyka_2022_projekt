@@ -32,19 +32,14 @@ const FloatRect Enemies::getBounds() const
 
 
 
-void Enemies::update()
+void Enemies::update(RenderTarget& target)
 {
-	enemy.move(0.f, 1.f*velocity);
+	
 }
 
 void Enemies::initVariables()
 {
-	 hp = 0;
-	 hp_max = 1;
-	 demage = 1;
-	 
-	 velocity = 1.f;
-	 
+
 }
 
 void Enemies::render(RenderTarget* target)
@@ -79,7 +74,7 @@ void Enemies::enemys_level(int level)
 		demage = 2;
 
 	default:
-		enemy.setFillColor(Color::Red);
+		enemy.setFillColor(Color::Blue);
 		enemy.setScale(2.f, 2.f);
 
 		velocity = 1.f;
