@@ -23,7 +23,6 @@ void Enemies::initEnemies()
 	enemy.setOrigin(15.f, 20.f);
 	enemy.rotate(180);
 	enemy.setPosition(50.f, 50.f);
-	choseLevel(1);
 	enemy.setScale(2.f, 2.f);
 	
 }
@@ -39,10 +38,20 @@ void Enemies::choseLevel(int level)
 	{
 	case(1):
 		enemy.setFillColor(Color::Blue);
+		velocity = 0.2f;
 		break;
 
 	case(2):
-		enemy.setFillColor(Color::Red);;
+		enemy.setFillColor(Color::Cyan);
+		velocity = 0.5f;
+		break;
+	case(3):
+		enemy.setFillColor(Color::Yellow);
+		velocity = 0.7f;
+		break;
+	case(4):
+		enemy.setFillColor(Color::Red);
+		velocity = 1.f;
 		break;
 	}
 
@@ -58,7 +67,7 @@ void Enemies::update(RenderTarget& target)
 	
 		if (down == true)
 		{
-			enemy.move(0.f, 0.5f);
+			enemy.move(0.f, 1.f*velocity);
 
 			if (enemy.getPosition().y >= target.getSize().y)
 			{

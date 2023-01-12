@@ -10,11 +10,13 @@
 #include "mainMenu.h"
 #include "Confirm.h"
 #include "Help.h"
+#include "Opcje.h"
 
 using namespace sf;
 
 
 float velocity = 1.f;
+int level = 1;
 
 int main()
 {
@@ -91,11 +93,12 @@ int main()
 					if (x == 0)
 					{
 						
+						game.setLevel(level);
 
 							while (Play.isOpen())
 							{
 								Event aevent;
-							
+								
 
 								while (Play.pollEvent(aevent))
 								{
@@ -224,6 +227,7 @@ int main()
 					{
 						while (OPTIONS.isOpen())
 						{
+							Opcje opcje(OPTIONS.getSize().x, OPTIONS.getSize().y);
 							Event aevent;
 							while (OPTIONS.pollEvent(aevent))
 							{
@@ -233,6 +237,26 @@ int main()
 								}
 								if (aevent.type == Event::KeyPressed)
 								{
+									if (aevent.key.code == Keyboard::Num1)
+									{
+										level = 1;
+										
+									}
+									if (aevent.key.code == Keyboard::Num2)
+									{
+										level = 2;
+										
+									}
+									if (aevent.key.code == Keyboard::Num3)
+									{
+										level = 3;
+										
+									}
+									if (aevent.key.code == Keyboard::Num4)
+									{
+										level = 4;
+										
+									}
 									if (aevent.key.code == Keyboard::Escape)
 									{
 										OPTIONS.close();
@@ -243,6 +267,10 @@ int main()
 							Play.close();
 							OPTIONS.clear();
 							ABOUT.close();
+
+							opcje.update(level);
+
+							opcje.draw(OPTIONS);
 							OPTIONS.draw(Obackground);
 
 							OPTIONS.display();

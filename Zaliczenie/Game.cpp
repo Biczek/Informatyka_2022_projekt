@@ -5,6 +5,7 @@ Game::Game()
 	initFont();
 	initText();
 	initVariables();
+	
 }
 
 void Game::update(RenderTarget& target, float velocity)
@@ -78,6 +79,8 @@ void Game::updateEnemies(RenderTarget& target)
 	for (auto* enemy : enemies)
 	{
 		enemy->update(target);
+		enemy->choseLevel(level);
+		levelChoosen(level);
 
 		for (auto Bullet : bullets)
 		{
@@ -177,10 +180,30 @@ void Game::initVariables()
 	delay = 0;
 	play = true;
 	demage = 1;
+	level = 1;
 
 	enemies_amout = 0;
 	enemies_amout_max = 3;
 
+}
+
+void Game::levelChoosen(int level)
+{
+	switch (level)
+	{
+	case(1):
+		demage = 1;
+		break;
+	case(2):
+		demage = 1;
+		break;
+	case(3):
+		demage = 2;
+		break;
+	case(4):
+		demage = 2;
+		break;
+	}
 }
 
 void Game::updateText()

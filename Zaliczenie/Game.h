@@ -20,6 +20,8 @@ private:
 	bool touched;
 	bool play;
 
+	int level;
+
 	//enemyVariables
 	int demage;
 
@@ -63,8 +65,14 @@ public:
 	//Text & Variables
 	void updateText();
 	void renderText(RenderTarget& target);
-
+	
 	//Chose enemy level
+	void setLevel(int LEVEL)
+	{
+		level = LEVEL;
+	}
+	void levelChoosen(int level);
+
 	//void enemyLevel(int level);
 
 	void initFont();
