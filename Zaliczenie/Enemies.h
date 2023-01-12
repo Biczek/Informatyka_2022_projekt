@@ -6,12 +6,13 @@ class Enemies
 {
 private:
 
-	int hp;
-	int hp_max;
-	int demage;
-
 	float velocity;
 	bool down;
+	float position_x;
+	float position_y;
+
+	bool new_position;
+	int position;
 
 public:
 	ConvexShape enemy;
@@ -22,9 +23,10 @@ public:
 	void initVariables();
 
 	void update(RenderTarget& target);
-	void enemys_level(int level);
 	void render(RenderTarget* target);
 	const FloatRect getBounds() const;
+
+	void choseLevel(int level);
 	
 };
 

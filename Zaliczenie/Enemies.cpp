@@ -4,7 +4,9 @@ Enemies::Enemies(float pos_x, float pos_y)
 {
 	initEnemies();
 	initVariables();
-	enemy.setPosition(pos_x, pos_x);
+	enemy.setPosition(pos_x, 20.f);
+	position_x = pos_x;
+	position_y = pos_y;
 };
 void Enemies::initEnemies()
 {
@@ -21,12 +23,29 @@ void Enemies::initEnemies()
 	enemy.setOrigin(15.f, 20.f);
 	enemy.rotate(180);
 	enemy.setPosition(50.f, 50.f);
-	enemy.setScale(Vector2f(2.f, 2.f));
+	choseLevel(1);
+	enemy.setScale(2.f, 2.f);
+	
 }
 
 const FloatRect Enemies::getBounds() const
 {
 	return enemy.getGlobalBounds();
+}
+
+void Enemies::choseLevel(int level)
+{
+	switch (level)
+	{
+	case(1):
+		enemy.setFillColor(Color::Blue);
+		break;
+
+	case(2):
+		enemy.setFillColor(Color::Red);;
+		break;
+	}
+
 }
 
 
@@ -36,31 +55,60 @@ const FloatRect Enemies::getBounds() const
 
 void Enemies::update(RenderTarget& target)
 {
-
-	if (down == true)
-	{
-		enemy.move(0.f, 1.f);
-
-		if (enemy.getPosition().y >= target.getSize().y)
+	
+		if (down == true)
 		{
-			down = false;
-		}
-	}
-	if(down == false)
-	{
-		enemy.move(0.f, -1.f);
+			enemy.move(0.f, 0.5f);
 
-		if (enemy.getPosition().y < 0)
+			if (enemy.getPosition().y >= target.getSize().y)
+			{
+				down = false;
+			}
+		}
+
+		if (down == false)
 		{
-			down = true;
-		}
-	}
+			if (position_x >= position)
+			{
+				if (position_x != 0.f)
+				{
+					enemy.move(-0.5f, -1.f);
+					position_x -= 0.5f;
+				}
+				else
+				{
+					enemy.move(0.f, -1.f);
+				}
+			}
 
+			if (position_x < position)
+			{
+				if (position_x != target.getSize().x)
+				{
+					enemy.move(0.5f, -1.f);
+					position_x += 0.5f;
+				}
+				else
+				{
+					enemy.move(0.f, -1.f);
+				}
+			}
+
+
+			if (enemy.getPosition().y <= 0)
+			{
+				down = true;
+				position = rand() % target.getSize().x;
+
+			}
+		}
 }
 
 void Enemies::initVariables()
 {
-	down =  true;
+	down = true;
+	new_position = false;
+	position = rand() % 600;
 }
 
 void Enemies::render(RenderTarget* target)
@@ -68,40 +116,3 @@ void Enemies::render(RenderTarget* target)
 	target->draw(enemy);
 }
 
-void Enemies::enemys_level(int level)
-{
-	switch (level)
-	{
-	case(1):
-		enemy.setFillColor(Color::Green);
-		enemy.setScale(2.f, 2.f);
-
-		velocity = 1.f;
-		hp_max = 1;
-		demage = 1;
-	case(2):
-		enemy.setFillColor(Color::Yellow);
-		enemy.setScale(1.f, 1.f);
-
-		velocity = 1.f;
-		hp_max = 2;
-		demage = 1;
-	case(3):
-		enemy.setFillColor(Color::Red);
-		enemy.setScale(1.f, 1.f);
-
-		velocity = 2.f;
-		hp_max = 2;
-		demage = 2;
-
-	default:
-		enemy.setFillColor(Color::Blue);
-		enemy.setScale(2.f, 2.f);
-
-		velocity = 1.f;
-		hp_max = 1;
-		demage = 1;
-
-		break;
-	}
-}

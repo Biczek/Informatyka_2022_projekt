@@ -14,11 +14,14 @@
 class Game
 {
 private:
-
+	//playerVariables
 	int health;
 	int points;
 	bool touched;
 	bool play;
+
+	//enemyVariables
+	int demage;
 
 	unsigned delay;
 
@@ -50,6 +53,7 @@ public:
 	void update(RenderTarget& target, float velocity);
 	void updateColision();
 	void updateBullet();
+
 	void updateEnemies(RenderTarget& target);
 	void input(RenderTarget& target);
 	
@@ -59,6 +63,9 @@ public:
 	//Text & Variables
 	void updateText();
 	void renderText(RenderTarget& target);
+
+	//Chose enemy level
+	//void enemyLevel(int level);
 
 	void initFont();
 	void initText();

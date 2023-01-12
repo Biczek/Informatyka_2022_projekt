@@ -17,7 +17,7 @@ void Game::update(RenderTarget& target, float velocity)
 		updateColision();
 		player.updatePlayer();
 
-		if(health == 0)
+		if(health <= 0)
 		{
 			play = false;
 		}
@@ -31,7 +31,7 @@ void Game::updateColision()
 
 		if (Enemy->getBounds().intersects(player.getBounds()) && touched == false)
 		{
-			health -= 1;
+			health -= demage;
 			touched = true;
 		}
 		else
@@ -77,7 +77,6 @@ void Game::updateEnemies(RenderTarget& target)
 
 	for (auto* enemy : enemies)
 	{
-		enemy->enemys_level(1);//do poprawy
 		enemy->update(target);
 
 		for (auto Bullet : bullets)
@@ -85,15 +84,18 @@ void Game::updateEnemies(RenderTarget& target)
 			if (enemy->getBounds().intersects(Bullet->getBonds()))
 			{
 				shooted = true;
+
 			}
 		}
 		if (shooted)
 		{
+
 			delete enemies.at(counter_2);
 			enemies.erase(enemies.begin() + counter_2);
 			--counter_2;
 			points += 1;
 			enemies_amout_max += 1;
+			
 		}
 		counter_2++;
 		shooted = false;
@@ -101,7 +103,7 @@ void Game::updateEnemies(RenderTarget& target)
 
 	if (enemies_amout < enemies_amout_max)
 	{
-		enemies.push_back(new Enemies(rand() % 1000, rand() % 400));
+		enemies.push_back(new Enemies(rand() % 1000, 20.f));
 		enemies_amout++;
 	}
 
@@ -127,7 +129,7 @@ void Game::input(RenderTarget& target)
 
 	if (Mouse::isButtonPressed(Mouse::Left) && player.canAttack())
 	{
-		bullets.push_back(new Bullet(player.getPos().x, player.getPos().y, 10.f));
+		bullets.push_back(new Bullet(player.getPos().x + 30.f, player.getPos().y, 10.f));
 	}
 }
 
@@ -165,20 +167,21 @@ void Game::initText()
 	text.setFillColor(sf::Color::White);
 	text.setString("NONE");
 }
+
 void Game::initVariables()
 {
-	health = 2;
+
+	health = 10;
 	points = 0;
 	touched = false;
 	delay = 0;
 	play = true;
-
+	demage = 1;
 
 	enemies_amout = 0;
 	enemies_amout_max = 3;
 
 }
-
 
 void Game::updateText()
 {
