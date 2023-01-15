@@ -67,6 +67,11 @@ void Player::renderPlayer(RenderTarget& target)
 	target.draw(sprite);
 }
 
+void Player::basicPos(RenderTarget& target)
+{
+	sprite.setPosition((target.getSize().x / 2.f - 50.f), target.getSize().y - 200.f);
+}
+
 
 
 

@@ -13,7 +13,7 @@ private:
 	int MainMenuSelected;
 	Font font;
 	Text MainMenu[Max_main_menu];
-	const char* Buttons[4] = { "Play", "Options", "About" , "Exit" };
+	const char* Buttons[4] = { "   Play", "Options", "Ranking" , "    Exit" };
 	const int offsetButtons = 100;
 
 

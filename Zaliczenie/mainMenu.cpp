@@ -13,9 +13,12 @@ mainMenu::mainMenu(float width, float height)
 		MainMenu[i].setFont(font);
 		MainMenu[i].setString(Buttons[i]);
 		MainMenu[i].setCharacterSize(70);
-		MainMenu[i].setPosition(400, 200 + offsetButtons * i);
+		MainMenu[i].setOutlineThickness(10.f);
+		MainMenu[i].setPosition(385, 200 + offsetButtons * i);
 	}
+
 	MainMenuSelected = 0;
+	MainMenu[MainMenuSelected].setFillColor(Color::Blue);
 }
 mainMenu::~mainMenu()
 {
@@ -51,6 +54,7 @@ void mainMenu::MoveDown()
 	if (MainMenuSelected + 1 <= Max_main_menu)
 	{
 		MainMenu[MainMenuSelected].setFillColor(Color::White);
+		
 		MainMenuSelected++;
 		if (MainMenuSelected == 4)
 		{

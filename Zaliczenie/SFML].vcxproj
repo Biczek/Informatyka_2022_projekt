@@ -139,6 +139,7 @@
     <ClCompile Include="mainMenu.cpp" />
     <ClCompile Include="Opcje.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TEXT.cpp" />
     <ClCompile Include="Źródło.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="mainMenu.h" />
     <ClInclude Include="Opcje.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TEXT.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

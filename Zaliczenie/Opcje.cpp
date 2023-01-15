@@ -16,6 +16,7 @@ Opcje::Opcje(float width, float height)
 		OptionsMenu[i].setFont(font);
 		OptionsMenu[i].setString(Buttons[i]);
 		OptionsMenu[i].setCharacterSize(50);
+		OptionsMenu[i].setOutlineThickness(3.f);
 		OptionsMenu[i].setPosition(220, 100 + offsetButtons * i);
 	}
 }
@@ -24,6 +25,7 @@ void Opcje::initText()
 {
 	text.setFont(this->font);
 	text.setCharacterSize(30);
+	text.setOutlineThickness(3.f);
 	text.setFillColor(sf::Color::White);
 	text.setString("NONE");
 }

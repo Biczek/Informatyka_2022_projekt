@@ -1,11 +1,11 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game(RenderWindow& window)
 {
 	initFont();
 	initText();
 	initVariables();
-	
+	player.basicPos(window);
 }
 
 void Game::update(RenderTarget& target, float velocity)
@@ -103,34 +103,41 @@ void Game::updateEnemies(RenderTarget& target)
 		counter_2++;
 		shooted = false;
 	}
-
-	if (enemies_amout < enemies_amout_max)
+	if (timer >= timer_max)
 	{
-		enemies.push_back(new Enemies(rand() % 1000, 20.f));
-		enemies_amout++;
+
+		if (enemies_amout < enemies_amout_max)
+		{
+			enemies.push_back(new Enemies(rand() % 1000, 20.f));
+			enemies_amout++;
+		}
+		timer = 0;
+
 	}
+	timer++;
+		
 
 }
 void Game::input(RenderTarget& target)
 {
-	if (Keyboard::isKeyPressed(Keyboard::A) && (player.getPos().x > 0) )
+	if (Keyboard::isKeyPressed(Keyboard::Left) && (player.getPos().x > 0) )
 	{
 		player.moveSprite(-1.f, 0.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::D) && ((player.getPos().x + player.getBounds().width )< target.getSize().x ))
+	if (Keyboard::isKeyPressed(Keyboard::Right) && ((player.getPos().x + player.getBounds().width )< target.getSize().x ))
 	{
 		player.moveSprite(1.f, 0.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::W) && (player.getPos().y > 0))
+	if (Keyboard::isKeyPressed(Keyboard::Up) && (player.getPos().y > 0))
 	{
 		player.moveSprite(0.f, -1.f, velocityPlayer);
 	}
-	if (Keyboard::isKeyPressed(Keyboard::S) && ((player.getPos().y + player.getBounds().height)< target.getSize().y))
+	if (Keyboard::isKeyPressed(Keyboard::Down) && ((player.getPos().y + player.getBounds().height)< target.getSize().y))
 	{
 		player.moveSprite(0.f, 1.f, velocityPlayer);
 	}
 
-	if (Mouse::isButtonPressed(Mouse::Left) && player.canAttack())
+	if (Keyboard::isKeyPressed(Keyboard::Space) && player.canAttack())
 	{
 		bullets.push_back(new Bullet(player.getPos().x + 30.f, player.getPos().y, 10.f));
 	}
@@ -166,9 +173,27 @@ void Game::initFont()
 void Game::initText()
 {
 	text.setFont(this->font);
-	text.setCharacterSize(30);
+	text.setCharacterSize(40);
+	text.setOutlineColor(Color::Blue);
+	text.setOutlineThickness(2.f);
 	text.setFillColor(sf::Color::White);
 	text.setString("NONE");
+
+	text_2.setFont(this->font);
+	text_2.setCharacterSize(30);
+	text_2.setOutlineColor(Color::Blue);
+	text_2.setOutlineThickness(2.f);
+	text_2.setFillColor(sf::Color::White);
+	text_2.setPosition(860.f, 10.f);
+	text_2.setString("F1 - HELP");
+
+	game_over.setFont(this->font);
+	game_over.setCharacterSize(100);
+	game_over.setOutlineThickness(2.f);
+	game_over.setOutlineColor(Color::Red);
+	game_over.setFillColor(sf::Color::Red);
+	game_over.setString("GAME OVER");
+	game_over.setPosition(250.f,300.f);
 }
 
 void Game::initVariables()
@@ -181,9 +206,11 @@ void Game::initVariables()
 	play = true;
 	demage = 1;
 	level = 1;
+	timer = 0;
+	timer_max = 200;
 
 	enemies_amout = 0;
-	enemies_amout_max = 3;
+	enemies_amout_max = 10;
 
 }
 
@@ -194,12 +221,15 @@ void Game::levelChoosen(int level)
 	case(1):
 		demage = 1;
 		break;
+
 	case(2):
 		demage = 1;
 		break;
+
 	case(3):
-		demage = 2;
+		demage = 1;
 		break;
+
 	case(4):
 		demage = 2;
 		break;
@@ -219,4 +249,9 @@ void Game::updateText()
 void Game::renderText(RenderTarget& target)
 {
 	target.draw(text);
+	target.draw(text_2);
+}
+void Game::renderGameOver(RenderTarget& target)
+{
+	target.draw(game_over);
 }

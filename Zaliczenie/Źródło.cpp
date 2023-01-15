@@ -11,6 +11,7 @@
 #include "Confirm.h"
 #include "Help.h"
 #include "Opcje.h"
+#include "TEXT.h"
 
 using namespace sf;
 
@@ -23,8 +24,8 @@ int main()
 	srand(static_cast<unsigned>(time(0)));
 
 	bool GamePlay = false;
-
-	Game game;
+	bool GAMEOVER = false;
+	
 	
 	
 	//Make a Mainwindow
@@ -41,17 +42,20 @@ int main()
 
 	//photo to the game
 	RectangleShape Pbackground;
-	Pbackground.setSize(Vector2f(1000.f, 800.f));
+	Pbackground.setSize(Vector2f(1000.f,1000.f));
 	Texture back_texture;
-	back_texture.loadFromFile("Images/Galaktyka.jpg");
+	if (!back_texture.loadFromFile("Images/Niebo.jpg"))
+	{
+		cout << "ERROR::LOAD_TEXTURE::GAME BACKGROUND" << "\n";
+	}
 	Pbackground.setTexture(&back_texture);
 
 	//photo to options
 	RectangleShape Obackground;
-	Pbackground.setSize(Vector2f(800.f, 800.f));
+	Obackground.setSize(Vector2f(800.f, 800.f));
 	Texture Optiontexture;
-	back_texture.loadFromFile("Images/Konstelacja.jpg");
-	Pbackground.setTexture(&Optiontexture);
+	Optiontexture.loadFromFile("Images/Konstelacja.jpg");
+	Obackground.setTexture(&Optiontexture);
 
 	//About 
 	RectangleShape ABbackground;
@@ -60,6 +64,12 @@ int main()
 	Abouttexture.loadFromFile("Images/Konstelacja.jpg");
 	ABbackground.setTexture(&Abouttexture);
 
+	//Help
+	RectangleShape Helpbackground;
+	Helpbackground.setSize(Vector2f(600.f,600.f));
+	Texture Helptexture;
+	Helptexture.loadFromFile("Images/Galaktyka.jpg");
+	Helpbackground.setTexture(&Helptexture);
 	
 
 	while (MENU.isOpen())
@@ -67,19 +77,28 @@ int main()
 		Event event;
 		while (MENU.pollEvent(event))
 		{
+			
+
 			if (event.type == Event::Closed)
 			{
 				MENU.close();
 			}
-			if(event.type == Event::KeyReleased)
+			if (event.type == Event::KeyReleased)
+
 				if (event.key.code == Keyboard::Up)
 				{
 					mainMenu.MoveUp();
+
+					GAMEOVER = false;
+					GamePlay = false;
 					break;
 				}
 				if (event.key.code == Keyboard::Down)
 				{
 					mainMenu.MoveDown();
+
+					GAMEOVER = false;
+					GamePlay = false;
 					break;
 				}
 				if (event.key.code == Keyboard::Return)
@@ -88,6 +107,8 @@ int main()
 					RenderWindow OPTIONS(VideoMode(800, 800), "OPTIONS");
 					RenderWindow ABOUT(VideoMode(800, 800), "ABOUT");
 					
+					Game game(Play);
+
 					int x = mainMenu.MainMenuPressed();
 
 					if (x == 0)
@@ -104,13 +125,14 @@ int main()
 								{
 									if (!game.endGame())
 									{
-										GamePlay = true;
+										GAMEOVER = true;
 									}
 
 									if (aevent.type == Event::Closed)
 									{
 										Play.close();
 									}
+								
 									if (aevent.type == Event::KeyPressed)
 									{
 
@@ -132,9 +154,17 @@ int main()
 													}
 												}
 												HELP.clear();
+												HELP.draw(Helpbackground);
 												help.draw(HELP);
 												HELP.display();
 											}
+										}
+
+										if (aevent.key.code == Keyboard::S)
+										{
+											ofstream zapis("dane.txt", ios::app);
+											zapis << "punkty : " << game.points_return() << "\n";
+											zapis.close();
 										}
 										
 										if (aevent.key.code == Keyboard::Escape)
@@ -153,12 +183,12 @@ int main()
 													if (aevent.type == Event::KeyPressed)
 													{
 
-														if (aevent.key.code == Keyboard::Up)
+														if (aevent.key.code == Keyboard::Left)
 														{
 															confirmMenu.MoveUp();
 														}
 
-														if (aevent.key.code == Keyboard::Down)
+														if (aevent.key.code == Keyboard::Right)
 														{
 															confirmMenu.MoveDown();
 														}
@@ -184,6 +214,15 @@ int main()
 											if (confirmMenu.ReturnMenuSelected() == true)
 											{
 												GamePlay = true;
+
+												
+
+												ofstream zapis("dane.txt", ios::app);
+												zapis << "punkty : " << game.points_return() << "\n";
+												zapis.close(); 
+
+												
+
 											}
 											else
 											{
@@ -203,11 +242,21 @@ int main()
 									OPTIONS.close();
 									ABOUT.close();
 									Play.clear();
+									Play.draw(Pbackground);
 									//Update
-									game.update(Play,velocity);
+
+									if (!GAMEOVER)
+									{
+										game.update(Play, velocity);
+									}
+									else
+									{
+										game.renderGameOver(Play);
+									}
+								
 
 									//Draw
-									//Play.draw(Pbackground);
+									
 									game.render(Play);
 									
 
@@ -268,10 +317,11 @@ int main()
 							OPTIONS.clear();
 							ABOUT.close();
 
+							OPTIONS.draw(Obackground);
 							opcje.update(level);
 
 							opcje.draw(OPTIONS);
-							OPTIONS.draw(Obackground);
+							
 
 							OPTIONS.display();
 
@@ -279,6 +329,10 @@ int main()
 					}
 					if (x == 2)
 					{
+						bool once = true;
+						TEXT text;
+						stringstream ss;
+
 						while (ABOUT.isOpen())
 						{
 							Event aevent;
@@ -293,14 +347,56 @@ int main()
 									if (aevent.key.code == Keyboard::Escape)
 									{
 										ABOUT.close();
+										
 									}
 								}
+
+								
+
+								fstream zapis("dane.txt");
+								string lista[10];
+								string linia;
+
+								do
+								{
+									for (int i = 0; i < 10; i++)
+									{
+										getline(zapis, linia);
+										lista[i] = linia;
+									}
+									 
+									
+									
+								} while (linia != ""); 
+								zapis.close(); 
+								if (once == true)
+								{
+									ss  <<"Hiscore : " <<"\n"
+									    << lista[0] << "\n"
+										<< lista[1] << "\n"
+										<< lista[2] << "\n"
+										<< lista[3] << "\n"
+										<< lista[4] << "\n"
+										<< lista[5] << "\n"
+										<< lista[6] << "\n"
+										<< lista[7] << "\n"
+										<< lista[8] << "\n"
+										<< lista[9] << "\n";
+
+									once = false;
+								}
+
 							}
 							
 							Play.close();
 							OPTIONS.close();
 							ABOUT.clear();
 							ABOUT.draw(ABbackground);
+
+							text.updateText(ss.str());
+							text.renderText(ABOUT);
+							
+							
 
 							ABOUT.display();
 
@@ -311,7 +407,7 @@ int main()
 						MENU.close();
 						break;
 					}
-					
+					break;
 				}
 		}
 		MENU.clear();

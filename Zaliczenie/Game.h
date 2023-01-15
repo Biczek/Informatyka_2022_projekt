@@ -5,6 +5,7 @@
 #include<ctime>
 #include<sstream>
 #include<iostream>
+#include<fstream>
 #include<vector>
 
 #include"Enemies.h"
@@ -19,6 +20,8 @@ private:
 	int points;
 	bool touched;
 	bool play;
+	unsigned timer;
+	unsigned timer_max;
 
 	int level;
 
@@ -43,13 +46,15 @@ private:
 	//Text&Font
 	Font font;
 	Text text;
+	Text text_2;
+	Text game_over;
 	
 	//Speed
 	float velocityPlayer = 1.f;
 
 public:
 	
-	Game();
+	Game(RenderWindow& window);
 
 	//Update
 	void update(RenderTarget& target, float velocity);
@@ -65,6 +70,7 @@ public:
 	//Text & Variables
 	void updateText();
 	void renderText(RenderTarget& target);
+	void renderGameOver(RenderTarget& target);
 	
 	//Chose enemy level
 	void setLevel(int LEVEL)
@@ -84,5 +90,10 @@ public:
 	{
 		return play;
 	}
+	int points_return()
+	{
+		return points;
+	}
+	
 };
 

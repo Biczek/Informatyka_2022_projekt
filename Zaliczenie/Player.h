@@ -42,6 +42,7 @@ public:
 	void moveSprite(const float dirX, const float dirY, const float velocity);
 	void initVariables();
 	void renderPlayer(RenderTarget& target);
+	void basicPos(RenderTarget& target);
 };
 
 

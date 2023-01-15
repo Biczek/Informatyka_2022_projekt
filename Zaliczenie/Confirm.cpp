@@ -26,7 +26,8 @@ Confirm::Confirm(float width, float height)
 	ConfirmMenu[2].setCharacterSize(50);
 	ConfirmMenu[2].setPosition(300, 100);
 
-	ConfirmMenuSelected = 0;
+	ConfirmMenuSelected = 1;
+	ConfirmMenu[ConfirmMenuSelected].setFillColor(Color::Blue);
 }
 
 Confirm::~Confirm()
