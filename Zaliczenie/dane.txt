@@ -1,0 +1,10 @@
+punkty : 0
+punkty : 3
+punkty : 9
+punkty : 10
+punkty : 3
+punkty : 0
+punkty : 0
+punkty : 7
+punkty : 14
+punkty : 0

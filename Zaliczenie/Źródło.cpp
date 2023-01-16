@@ -28,8 +28,7 @@ int main()
 	bool GamePlay = false;
 	bool GAMEOVER = false;
 	
-	
-	
+
 	//Make a Mainwindow
 
 	RenderWindow MENU(VideoMode(1000.f, 800.f), "Main Menu", Style::Close || Style::Titlebar);
@@ -168,6 +167,7 @@ int main()
 											ofstream zapis("dane.txt", ios::app);
 											zapis << "punkty : " << game.points_return() << "\n";
 											zapis.close();
+
 										}
 										
 										if (aevent.key.code == Keyboard::Escape)
@@ -223,8 +223,6 @@ int main()
 												ofstream zapis("dane.txt", ios::app);
 												zapis << "punkty : " << game.points_return() << "\n";
 												zapis.close(); 
-
-												
 
 											}
 											else
@@ -374,8 +372,8 @@ int main()
 								zapis.close(); 
 								if (once == true)
 								{
-									ss  <<"Hiscore : " <<"\n"
-									    << lista[0] << "\n"
+									ss << "Hiscore : " << "\n"
+										<< lista[0] << "\n"
 										<< lista[1] << "\n"
 										<< lista[2] << "\n"
 										<< lista[3] << "\n"
@@ -385,6 +383,8 @@ int main()
 										<< lista[7] << "\n"
 										<< lista[8] << "\n"
 										<< lista[9] << "\n";
+										
+
 
 									once = false;
 								}
