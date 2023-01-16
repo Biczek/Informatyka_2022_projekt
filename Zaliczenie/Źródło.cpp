@@ -19,6 +19,8 @@ using namespace sf;
 float velocity = 1.f;
 int level = 1;
 
+
+
 int main()
 {
 	srand(static_cast<unsigned>(time(0)));
@@ -31,7 +33,7 @@ int main()
 	//Make a Mainwindow
 
 	RenderWindow MENU(VideoMode(1000.f, 800.f), "Main Menu", Style::Close || Style::Titlebar);
-	mainMenu mainMenu(MENU.getSize().x, MENU.getSize().y);
+	mainMenu mainMenu(MENU);
 	
 	//setBackground
 	RectangleShape background;
@@ -153,6 +155,7 @@ int main()
 														}
 													}
 												}
+
 												HELP.clear();
 												HELP.draw(Helpbackground);
 												help.draw(HELP);

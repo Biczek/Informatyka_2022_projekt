@@ -2,7 +2,7 @@
 
 Confirm::Confirm(float width, float height)
 {
-	if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	if (!font.loadFromFile("Fonts/PixellettersFull.ttf"))
 	{
 		cout << "No font is here";
 	}
@@ -11,19 +11,19 @@ Confirm::Confirm(float width, float height)
 	ConfirmMenu[0].setFont(font);
 	ConfirmMenu[0].setFillColor(Color::White);
 	ConfirmMenu[0].setString("Are you sure you want to close the game?");
-	ConfirmMenu[0].setCharacterSize(30);
-	ConfirmMenu[0].setPosition(50,50);
+	ConfirmMenu[0].setCharacterSize(37);
+	ConfirmMenu[0].setPosition(30,50);
 	//Yes
 	ConfirmMenu[1].setFont(font);
 	ConfirmMenu[1].setFillColor(Color::White);
 	ConfirmMenu[1].setString("YES");
-	ConfirmMenu[1].setCharacterSize(50);
+	ConfirmMenu[1].setCharacterSize(70);
 	ConfirmMenu[1].setPosition(200, 100);
 	//No
 	ConfirmMenu[2].setFont(font);
 	ConfirmMenu[2].setFillColor(Color::White);
 	ConfirmMenu[2].setString("NO");
-	ConfirmMenu[2].setCharacterSize(50);
+	ConfirmMenu[2].setCharacterSize(70);
 	ConfirmMenu[2].setPosition(300, 100);
 
 	ConfirmMenuSelected = 1;

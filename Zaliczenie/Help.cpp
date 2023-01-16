@@ -2,7 +2,7 @@
 
 Help::Help(float width, float height)
 {
-	if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	if (!font.loadFromFile("Fonts/PixellettersFull.ttf"))
 	{
 		cout << "No font is here";
 	}
@@ -12,9 +12,9 @@ Help::Help(float width, float height)
 		HelpMenu[i].setFillColor(Color::White);
 		HelpMenu[i].setFont(font);
 		HelpMenu[i].setString(Buttons[i]);
-		HelpMenu[i].setCharacterSize(40);
+		HelpMenu[i].setCharacterSize(55);
 		HelpMenu[i].setOutlineThickness(3.f);
-		HelpMenu[i].setPosition(125, 100 + Offset * i);
+		HelpMenu[i].setPosition(70, 100 + Offset * i);
 	}
 }
 

@@ -148,6 +148,7 @@ void Game::input(RenderTarget& target)
 void Game::render(RenderTarget& target)
 {
 	player.renderPlayer(target);
+	
 	renderText(target);
 
 	for (auto *enemy : enemies)
@@ -164,7 +165,7 @@ void Game::render(RenderTarget& target)
 
 void Game::initFont()
 {
-	if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	if (!font.loadFromFile("Fonts/The Led Display St.ttf"))
 	{
 		cout << "No font is here";
 	}
@@ -173,18 +174,18 @@ void Game::initFont()
 void Game::initText()
 {
 	text.setFont(this->font);
-	text.setCharacterSize(40);
+	text.setCharacterSize(25);
 	text.setOutlineColor(Color::Blue);
 	text.setOutlineThickness(2.f);
 	text.setFillColor(sf::Color::White);
 	text.setString("NONE");
 
 	text_2.setFont(this->font);
-	text_2.setCharacterSize(30);
+	text_2.setCharacterSize(20);
 	text_2.setOutlineColor(Color::Blue);
 	text_2.setOutlineThickness(2.f);
 	text_2.setFillColor(sf::Color::White);
-	text_2.setPosition(860.f, 10.f);
+	text_2.setPosition(830.f, 10.f);
 	text_2.setString("F1 - HELP");
 
 	game_over.setFont(this->font);
@@ -193,7 +194,7 @@ void Game::initText()
 	game_over.setOutlineColor(Color::Red);
 	game_over.setFillColor(sf::Color::Red);
 	game_over.setString("GAME OVER");
-	game_over.setPosition(250.f,300.f);
+	game_over.setPosition(180.f,300.f);
 }
 
 void Game::initVariables()
@@ -240,8 +241,8 @@ void Game::updateText()
 {
 	std::stringstream ss;
 
-	ss << "Points: " << points << "\n"
-		<< "Health: " << health << "\n";
+	ss << "Points : " << points << "\n"
+		<< "Health : " << health << "\n";
 
 	text.setString(ss.str());
 

@@ -15,9 +15,9 @@ private:
 	Text OptionsMenu[Max_option_menu];
 
 
-	const char* Buttons[6] = { "	Choose level:" , "  Press 1 to level 1", "  Press 2 to level 2",
+	const char* Buttons[6] = { "	Choose level :" , "  Press 1 to level 1", "  Press 2 to level 2",
 		"  Press 3 to level 3", "  Press 4 to level 4", "Press Escape to Exit" };
-	const int offsetButtons = 100;
+	const float offsetButtons = 100.f;
 public:
 	Opcje(float width, float height);
 	void initText();

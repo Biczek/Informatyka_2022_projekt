@@ -5,7 +5,7 @@ Opcje::Opcje(float width, float height)
 {
 	initText();
 
-	if (!font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	if (!font.loadFromFile("Fonts/The Led Display St.ttf"))
 	{
 		cout << "No font is here";
 	}
@@ -15,9 +15,9 @@ Opcje::Opcje(float width, float height)
 		OptionsMenu[i].setFillColor(Color::White);
 		OptionsMenu[i].setFont(font);
 		OptionsMenu[i].setString(Buttons[i]);
-		OptionsMenu[i].setCharacterSize(50);
+		OptionsMenu[i].setCharacterSize(45);
 		OptionsMenu[i].setOutlineThickness(3.f);
-		OptionsMenu[i].setPosition(220, 100 + offsetButtons * i);
+		OptionsMenu[i].setPosition(85.f, 100.f + offsetButtons * i);
 	}
 }
 
@@ -27,6 +27,7 @@ void Opcje::initText()
 	text.setCharacterSize(30);
 	text.setOutlineThickness(3.f);
 	text.setFillColor(sf::Color::White);
+	text.setPosition(10.f, 20.f);
 	text.setString("NONE");
 }
 

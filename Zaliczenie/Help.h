@@ -17,7 +17,7 @@ private:
 	float Offset = 50.f;
 
 	const char* Buttons[Max_help_menu] = { "	Simple instruction" , " Left arrow - move left" ,"Right arrow - move right" 
-	, "	Up arrow - move up" ,"Down arrow - move down" ,"		 Space - shoot", "			Esc - exit"};
+	, "	Up arrow - move up" ,"Down arrow - move down" ,"	  Space - shoot", "		 Esc - exit"};
 
 public:
 

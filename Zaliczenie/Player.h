@@ -43,6 +43,11 @@ public:
 	void initVariables();
 	void renderPlayer(RenderTarget& target);
 	void basicPos(RenderTarget& target);
+
+	void rotatePlayer(float Angle)
+	{
+		sprite.setRotation(Angle);
+	}
 };
 
 
